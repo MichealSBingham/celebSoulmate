@@ -48,9 +48,52 @@ class Question extends React.Component {
   }
 
   render() {
+
+
+       let question = ""; 
+       const page = this.props.page;
+
+        if (page == 'Home'){
+          question = "Let's Ask The Stars To Find Your Celebrity... ";
+        } 
+
+        else if (page == 'Name'){
+          question = "I'm Amāre, your mystic matchmaker. And you are?";
+        }
+
+        else if (page == 'Gender'){
+
+          question = "Hey Micheal. So since birth, you've been a ...";
+
+        }
+
+        else if (page == 'Orientation'){
+
+          question = "As a man ... Tell me all of whom you like.";
+
+
+        }
+
+        else if (page == 'Birthlocation'){
+
+          question = "Where were you born?";
+
+        }
+
+        else if (page == 'Birthday'){
+
+          question = "When were you born?";
+        }
+
+        else {
+          question = null; 
+        }
+
+        
+
     return (
       <div>
-        <h1>{this.props.question}</h1>
+        <h1>{question}</h1>
       </div>
     );
   }
@@ -222,7 +265,7 @@ class InitialPage extends React.Component{
           
           <AmareLogo />
 
-          <Question question={this.state.question} />
+          <Question page={this.state.page} />
 
           <RegistrationSection page={this.state.page} pageSetter={this.goToPage} /> 
 
