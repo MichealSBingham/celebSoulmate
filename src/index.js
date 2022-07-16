@@ -99,12 +99,15 @@ class AmareLogo extends React.Component{
   }
 
 
+const pages = ['Home', 'Name', 'Gender', 'Orientation', 'Birthlocation', 'Birthday', 'Results']
 class InitialPage extends React.Component{
 
     constructor(props) {
       super(props);
-      this.didChoose.bind(this);
+      //this.didChoose.bind(this);
       this.goToPage.bind(this); 
+      this.previousPage.bind(this); 
+      this.nextPage.bind(this);
 
       this.state = {
         question: "Let's Ask The Stars To Find Your Celebrity... ",
@@ -116,21 +119,98 @@ class InitialPage extends React.Component{
 
        // This function is called when the user clicks on the button
        
-      didChoose = (choice) => {
-        console.log('You clicked the button: ' + choice);
-        this.setState({
-          question: choice == "twin" ? "Let's find your twin!" : "Let's Find Your Soulmate!",
-        });
-      }
+       
+  
       
 
 
       // Changes pages for the registration 
       goToPage = (page) => {
 
-        console.log('Go to page: ' + page );
+        console.log('goToPage ' + page );
+
+        let question = "Hi";
+        /*
+
+        if (page == 'Home'){
+          question = "Let's Ask The Stars To Find Your Celebrity... ";
+        } 
+
+        else if (page == 'Name'){
+          question = "I'm Amāre, your mystic matchmaker. And you are?";
+        }
+
+        else if (page == 'Gender'){
+
+          question = "Hey Micheal. So since birth, you've been a ...";
+
+        }
+
+        else if (page == 'Orientation'){
+
+          question = "As a man ... Tell me all of whom you like.";
+
+
+        }
+
+        else if (page == 'Birthlocation'){
+
+          question = "Where were you born?";
+
+        }
+
+        else if (page == 'Birthday'){
+
+          question = "When were you born?";
+        }
+
+        else {
+          question = null; 
+        }
+
+        */
+
         this.setState({
-          page: {page}
+          page: page,
+         // question:{question} // This is the question that is displayed on the page
+        }, () => { 
+
+          console.log("The state of the page from goToPage  (InitalPage) is: " + this.state.page);
+
+        }); // This is a callback function that is called after the state is set
+
+        
+      }
+
+
+      previousPage = () => {
+        console.log('Go to previous page')
+
+        const currentPage = this.state.page;
+
+        const pageNum = pages.indexOf(currentPage);
+        const prevPageNum = pageNum - 1; 
+
+        const pageToGoTo = pages[prevPageNum];
+
+        this.setState({
+          page: pageToGoTo
+        });
+      }
+
+      nextPage = () => {
+
+        console.log('Go to previous page')
+
+        const currentPage = this.state.page;
+
+        const pageNum = pages.indexOf(currentPage);
+        const nextPageNum = pageNum + 1; 
+
+        const pageToGoTo = pages[nextPageNum];
+
+        this.setState({
+          page: pageToGoTo
         });
       }
 
@@ -143,11 +223,11 @@ class InitialPage extends React.Component{
           <AmareLogo />
 
           <Question question={this.state.question} />
-          
+
           <RegistrationSection page={this.state.page} pageSetter={this.goToPage} /> 
 
 
-          <PageControl /> 
+          <PageControl goBack={this.previousPage} goToNext={this.nextPage} currentPage={this.state.page} /> 
 
 
         
@@ -181,14 +261,16 @@ class RegistrationSection extends React.Component{
       console.log('Did pick: ' + choice)
 
       // Go to a page 
-      this.props.pageSetter('Home')
+      this.props.pageSetter('Name');
 
     }
 
     render(){
 
-      const page = this.props.page 
-
+      const page = this.props.page;
+    
+      console.log('RegistrationSection page: ' + this.props.page);
+      
       if (page == 'Home'){
 
         return ( 
@@ -215,30 +297,114 @@ class RegistrationSection extends React.Component{
 
       else if (page == 'Gender'){
 
+        return(
+
+          <div>
+            <h1> This is where we ask for the user's gender </h1>
+          </div>
+        );
+
       }
 
       else if (page == 'Orientation'){
+
+        return(
+
+          <div>
+            <h1> This is where we ask for the user's sexual orientation </h1>
+          </div>
+        );
 
       }
 
       else if (page == 'Birthlocation'){
 
+        return(
+
+          <div>
+            <h1> This is where we ask for the user's birth city </h1>
+          </div>
+        );
       }
 
       else if (page == 'Birthday'){
 
+        return(
+
+          <div>
+            <h1> This is where we ask for the user's birthday </h1>
+          </div>
+        );
+
       }
 
       else {
-        return null;
+        
+        return(
+          <div><h1> Nothing to see here</h1></div>
+        );
       }
 
     }
   }
 
 
+  
+
+  // Page Control Section --->
+
 
   // Page Control 
+
+
+
+
+
+
+
+  class BackButton extends React.Component{
+
+
+    constructor(props){
+      super(props);
+      this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick = () => {
+      console.log("Clicked back button");
+      this.props.goBack();
+    }
+
+    render(){
+      return(
+        <div>
+          <button onClick={this.handleClick}>Back</button>
+        </div>
+      );
+    }
+  }
+
+  class NextButton extends React.Component{
+
+
+    constructor(props){
+      super(props);
+      this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick = () => {
+      console.log("Clicked next button");
+      this.props.goToNext();
+    }
+
+    render(){
+      return(
+        <div>
+          <button onClick={this.handleClick}>Next</button>
+        </div>
+      );
+    }
+  }
 
   class PageControl extends React.Component{
     
@@ -248,13 +414,24 @@ class RegistrationSection extends React.Component{
 
     render(){
 
+      if (this.props.currentPage == 'Home') {
+        return(null);
+      }
+
       return (
+
+        <div> 
                 <h1> Page Control </h1>
+                <BackButton goBack={this.props.goBack} />
+                <NextButton goToNext={this.props.goToNext} />
+        </div>
       );
       
     }
   }
 
+
+// End of Page Control Elements ---------------------------------------------------------
   
 // End of First "Page" of the app ==========================================================
 
