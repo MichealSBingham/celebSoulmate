@@ -1,0 +1,71 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');
+
+.gradient-background {
+    background: linear-gradient(245deg,#F029C4,#FF0265);
+    background-size: 180% 180%;
+    animation: gradient-animation 3s ease infinite;
+    height: 100vh;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    
+  }
+  
+@keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+
+ 
+* {
+    margin: 0px;
+    padding: 0px;
+    
+  }
+
+
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    width: 300px;
+}
+
+.title{
+    text-align: center;
+    font-size: 48px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 50px;
+    font-family: 'Montserrat Alternates', sans-serif;
+}
+
+.button{
+    background-image: url("https://i.ibb.co/FgfKLwy/Soulmate-Button.png");
+}
+
+
+/*
+.Button {
+    background-color: #F029C4;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: 'Montserrat Alternates', sans-serif;
+} */

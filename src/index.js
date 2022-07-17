@@ -5,7 +5,6 @@ import './index.css';
 //import logo from './images/logo.png'; // 
 
 
-
 // Images 
 
 //- TODO:  This should be local
@@ -93,7 +92,7 @@ class Question extends React.Component {
 
     return (
       <div>
-        <h1>{question}</h1>
+        <h1 className="title">{question}</h1>
       </div>
     );
   }
@@ -120,9 +119,17 @@ class Button extends React.Component{
 
   render(){
     return(
+      
       <div>
-        <button onClick={() => this.handleClick(this.props.choice)}>{this.props.buttonText}</button>
+        <button  onClick={() => this.handleClick(this.props.choice)}>
+          
+         {this.props.buttonText}
+          
+          </button>
       </div>
+      
+     
+      
     );
   }
 }
@@ -134,7 +141,7 @@ class AmareLogo extends React.Component{
     render(){ 
       return(
         <div className="amare-logo">
-          <img src={logo} alt="Amāre Logo" />
+          <img className="logo" src={logo} alt="Amāre Logo" />
          
         </div>
       );
@@ -497,8 +504,8 @@ class RegistrationSection extends React.Component{
      // const isRegistering = this.state.isRegisering;
 
       return(
-        <div className="app" style={backgroundStyle}>
-          <InitialPage />
+        <div className="app" class="gradient-background" >
+          <InitialPage  />
         </div>
       );
     }
