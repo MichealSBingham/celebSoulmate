@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="715px" height="79px" viewBox="0 0 715 79" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Soulmate Button</title>
+    <g id="Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Web" transform="translate(-442.000000, -639.000000)">
+            <g id="Soulmate-Button" transform="translate(442.000000, 639.000000)">
+                <g id="Button" fill="#FFF8F8" opacity="0.250224">
+                    <rect id="Rectangle" x="0" y="0" width="715" height="79" rx="39.5"></rect>
+                </g>
+                <text id="Soulmate" font-family="MontserratAlternates-Medium, Montserrat Alternates" font-size="24" font-weight="400" fill="#FFFFFF">
+                    <tspan x="298.68" y="47">Soulmate</tspan>
+                    <tspan x="418.32" y="47" font-family="MontserratAlternates-SemiBold, Montserrat Alternates" font-size="21" font-weight="500"> </tspan>
+                </text>
+                <text id="😍" font-family="AppleColorEmoji, Apple Color Emoji" font-size="36" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="453.5" y="52">😍</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

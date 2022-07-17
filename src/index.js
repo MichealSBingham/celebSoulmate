@@ -3,7 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 //import logo from './images/logo.png'; // 
-
+import AmareLogoPNG from './images/logo.png';
+import AmareLogoSVG from './images/LogoVMsvg.svg'
+import SoulmateButton from './images/SoulmateButton.svg';
 
 // Images 
 
@@ -121,7 +123,7 @@ class Button extends React.Component{
     return(
       
       <div>
-        <button  onClick={() => this.handleClick(this.props.choice)}>
+        <button  className="SoulmateButton" onClick={() => this.handleClick(this.props.choice)}>
           
          {this.props.buttonText}
           
@@ -141,7 +143,7 @@ class AmareLogo extends React.Component{
     render(){ 
       return(
         <div className="amare-logo">
-          <img className="logo" src={logo} alt="Amāre Logo" />
+          <img className="logo" src={AmareLogoSVG} alt="Amāre Logo" />
          
         </div>
       );

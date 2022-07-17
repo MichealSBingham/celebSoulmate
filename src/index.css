@@ -39,6 +39,8 @@
     margin-right: auto;
     height: 300px;
     width: 300px;
+    padding-top: 5%
+    
 }
 
 .title{
@@ -50,14 +52,30 @@
     font-family: 'Montserrat Alternates', sans-serif;
 }
 
-.button{
-    background-image: url("https://i.ibb.co/FgfKLwy/Soulmate-Button.png");
+
+
+
+button {
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  width: 715px;
+  height: 80px;
+  border-radius: 43px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 50px;
 }
 
 
 /*
-.Button {
-    background-color: #F029C4;
+
+button {
+    background-color: transparent;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -68,4 +86,24 @@
     margin: 4px 2px;
     cursor: pointer;
     font-family: 'Montserrat Alternates', sans-serif;
-} */
+} 
+ */
+
+
+
+/*
+
+.SoulmateButton {
+  background-image: url(images/Button.svg);
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  
+  width: 100px;
+  border: none;
+}
+ 
+button span {
+  display: none;
+}
+
+*/
