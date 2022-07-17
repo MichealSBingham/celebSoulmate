@@ -6,6 +6,7 @@ import './index.css';
 import AmareLogoPNG from './images/logo.png';
 import AmareLogoSVG from './images/LogoVMsvg.svg'
 import SoulmateButton from './images/SoulmateButton.svg';
+import StarfieldAnimation from 'react-starfield-animation'
 
 // Images 
 
@@ -507,6 +508,14 @@ class RegistrationSection extends React.Component{
 
       return(
         <div className="app" class="gradient-background" >
+           <StarfieldAnimation numParticles="750"
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%', 
+         
+        }}
+      />
           <InitialPage  />
         </div>
       );
