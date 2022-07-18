@@ -7,6 +7,8 @@ import AmareLogoPNG from './images/logo.png';
 import AmareLogoSVG from './images/LogoVMsvg.svg'
 import SoulmateButton from './images/SoulmateButton.svg';
 import StarfieldAnimation from 'react-starfield-animation'
+import index from 'react-starfield-animation';
+import MetaTags from 'react-meta-tags';
 
 // Images 
 
@@ -21,6 +23,12 @@ backgroundRepeat: 'no-repeat',
         height: '100vh', 
         
 };
+
+
+const resolution = window.innerWidth;
+const isMobile = resolution >= 320 && resolution <= 480;
+const isTablet = resolution >= 768 && resolution <= 1024;
+const isDesktop = !isMobile && !isTablet;
 
 //=========================================================
 
@@ -52,6 +60,10 @@ class Question extends React.Component {
   render() {
 
 
+
+    
+
+
        let question = ""; 
        const page = this.props.page;
 
@@ -61,6 +73,13 @@ class Question extends React.Component {
 
         else if (page == 'Name'){
           question = "I'm Amāre, your mystic matchmaker. And you are?";
+
+          return(
+            <div>
+              <h1 className={!isMobile ? "title" : "title-mobile"}>I'm <span style={{fontWeight : 800}}>Amāre</span>, your mystic matchmaker. And you are? </h1>
+            </div>
+            
+          )
         }
 
         else if (page == 'Gender'){
@@ -95,7 +114,7 @@ class Question extends React.Component {
 
     return (
       <div>
-        <h1 className="title">{question}</h1>
+        <h1 className={!isMobile ? "title" : "title-mobile"}>{question}</h1>
       </div>
     );
   }
@@ -121,11 +140,13 @@ class Button extends React.Component{
 
 
   render(){
+
+    const className = !isMobile ? "Button" : "Button-mobile"
     return(
       
       <div>
-        <button  className="SoulmateButton" onClick={() => this.handleClick(this.props.choice)}>
-          
+        <button  className={className} onClick={() => this.handleClick(this.props.choice)}>
+        
          {this.props.buttonText}
           
           </button>
@@ -142,9 +163,11 @@ class AmareLogo extends React.Component{
 
     
     render(){ 
+
+      
       return(
         <div className="amare-logo">
-          <img className="logo" src={AmareLogoSVG} alt="Amāre Logo" />
+          <img className={!isMobile ? "logo": "logo-mobile"} src={AmareLogoSVG} alt="Amāre Logo" />
          
         </div>
       );
@@ -277,7 +300,7 @@ class InitialPage extends React.Component{
 
           <Question page={this.state.page} />
 
-          <RegistrationSection page={this.state.page} pageSetter={this.goToPage} /> 
+          <RegistrationSection page={this.state.page} pageSetter={this.goToPage} className="registrationSection" /> 
 
 
           <PageControl goBack={this.previousPage} goToNext={this.nextPage} currentPage={this.state.page} /> 
@@ -507,21 +530,59 @@ class RegistrationSection extends React.Component{
      // const isRegistering = this.state.isRegisering;
 
       return(
+
+        
         <div className="app" class="gradient-background" >
-           <StarfieldAnimation numParticles="750"
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%', 
+       
+       
+       <meta name="viewport" content="initial-scale=1, viewport-fit=cover, width=device-width"></meta>
+  <meta name="apple-mobile-web-app-capable" content="yes"></meta>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></meta>
+        
+
+
+
+           <Stars />
+           <InitialPage className='initialPage' />
+          <BottomStars />
+  
+
+       
          
-        }}
-      />
-          <InitialPage  />
         </div>
       );
     }
   }
   
+  class Stars extends React.Component {
+    render () {
+      return (
+        <StarfieldAnimation className="stars" depth={500} numParticles={700} 
+        style={{
+          position: 'absolute',
+          
+        
+        }}
+        />
+      )
+    }
+  }
+
+
+  class BottomStars extends React.Component {
+    render () {
+      return (
+        
+        <StarfieldAnimation className="stars2"
+        numParticles={700} depth={500}
+        style={{
+          position: 'absolute',
+          
+        }}
+      />
+      )
+    }
+  }
   // ========================================
   
   const root = ReactDOM.createRoot(document.getElementById("root"));

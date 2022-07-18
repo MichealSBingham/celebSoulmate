@@ -1,5 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@800&display=swap');
 
 .gradient-background {
     background: linear-gradient(245deg,#F029C4,#FF0265);
@@ -9,8 +11,29 @@
     width: 100%;
     margin: 0px;
     padding: 0px;
+  
     
   }
+
+
+
+  
+  .stars{
+   
+    width: 100%;
+    height: 50%;
+    
+    
+  }
+
+  .stars2{
+   
+    width: 100%;
+    height: 50%;
+    
+    
+  }
+
   
 @keyframes gradient-animation {
     0% {
@@ -48,6 +71,20 @@
     
 }
 
+.logo-mobile{
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 200px;
+  width: 200px;
+  padding-top: 5%;
+  animation-name: floating;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out
+}
+
 @keyframes floating {
   0% { transform: translate(0,  0px); }
   50%  { transform: translate(0, 45px); }
@@ -56,17 +93,26 @@
 
 .title{
     text-align: center;
-    font-size: 48px;
+    font-size: 48=px;
     color: #fff;
-    font-family: 'Roboto', sans-serif;
     margin-top: 50px;
     font-family: 'Montserrat Alternates', sans-serif;
+    font-weight: 400;
+}
+
+.title-mobile{
+  text-align: center;
+  font-size: 25px;
+  color: #fff;
+  margin-top: 60px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-weight: 400;
+ 
 }
 
 
 
-
-button {
+.Button {
   background-color: rgb(255, 255, 255, 0.15);
   border: none;
   width: 715px;
@@ -80,7 +126,44 @@ button {
   margin-right: auto;
   display: block;
   margin-top: 50px;
+  
+ 
 }
+
+.Button-mobile {
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  width: 350px;
+  height: 60px;
+  border-radius: 43px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  text-align: center;
+  color: white;
+  font-size: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 50px;
+  
+ 
+}
+
+
+
+html, body 
+{ 
+ height: 100%;
+ overflow: hidden;
+
+
+
+
+}
+
+
+
+
+
 
 
 /*
