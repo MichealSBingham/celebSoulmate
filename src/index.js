@@ -184,10 +184,11 @@ class InitialPage extends React.Component{
       this.goToPage.bind(this); 
       this.previousPage.bind(this); 
       this.nextPage.bind(this);
-
+      this.setUserData.bind(this); 
       this.state = {
         question: "Let's Ask The Stars To Find Your Celebrity... ",
-        page: "Home"
+        page: "Home", 
+        name: null 
        };
 
       
@@ -280,16 +281,39 @@ class InitialPage extends React.Component{
 
         const currentPage = this.state.page;
 
+        console.log("leaving .." + currentPage)
+
+        
+
+        // Make sure the pages that require user input HAVE input before proceeding 
+        if (currentPage == 'Name'){
+          if (this.state.name == null){
+            alert("Please enter your name");
+            return;
+          }
+        }
+
+        console.log("The entered name is " + this.state.name);
+        
+
         const pageNum = pages.indexOf(currentPage);
         const nextPageNum = pageNum + 1; 
 
         const pageToGoTo = pages[nextPageNum];
-
+        
         this.setState({
           page: pageToGoTo
         });
       }
 
+
+      setUserData = (data) => {
+
+      
+        this.setState(data);
+  
+       
+      }
       
 
     render(){
@@ -300,7 +324,7 @@ class InitialPage extends React.Component{
 
           <Question page={this.state.page} />
 
-          <RegistrationSection page={this.state.page} pageSetter={this.goToPage} className="registrationSection" /> 
+          <RegistrationSection page={this.state.page} pageSetter={this.goToPage} className="registrationSection" dataSetter={this.setUserData} /> 
 
 
           <PageControl goBack={this.previousPage} goToNext={this.nextPage} currentPage={this.state.page} /> 
@@ -315,6 +339,40 @@ class InitialPage extends React.Component{
 
   }
 
+
+  class NameForm extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {value: ''};
+  
+      this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+    }
+  
+    handleChange(event) {
+      this.setState({value: event.target.value});
+      
+
+      // Each time this changes, we'll propogate the change to the parent
+      this.props.dataSetter({name: event.target.value});
+    }
+  
+    handleSubmit(event) {
+      
+      event.preventDefault();
+    }
+  
+    render() {
+      return (
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+          </label>
+         
+        </form>
+      );
+    }
+  }
   
 
   // Registration Info Section ---> 
@@ -326,7 +384,6 @@ class RegistrationSection extends React.Component{
       // Home, Name, Gender, Orientation, Birthlocation, Birthday
     constructor(props){
       super(props); 
-
 
     }
 
@@ -340,6 +397,8 @@ class RegistrationSection extends React.Component{
       this.props.pageSetter('Name');
 
     }
+
+    
 
     render(){
 
@@ -366,7 +425,7 @@ class RegistrationSection extends React.Component{
         return(
 
           <div>
-            <h1> This is where we ask for the user's name </h1>
+           <NameForm dataSetter={this.props.dataSetter}/>
           </div>
         );
       }
