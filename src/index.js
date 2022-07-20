@@ -419,7 +419,7 @@ class RegistrationSection extends React.Component{
       // Home, Name, Gender, Orientation, Birthlocation, Birthday
     constructor(props){
       super(props); 
-      
+      //this.setSex = this.setSex.bind(this); 
 
     }
 
@@ -432,6 +432,14 @@ class RegistrationSection extends React.Component{
       // Go to a page 
       this.props.pageSetter('Name');
 
+    }
+
+    setSex = (sex) => {
+
+      this.props.dataSetter({gender: sex});
+     this.props.pageSetter('Orientation');
+     console.log("did select sex: " + sex )
+     return; 
     }
 
     componentDidMount() {
@@ -479,11 +487,11 @@ class RegistrationSection extends React.Component{
            <div>
   
            <div className='btn-Group2' role='group'> 
-           <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.handleClickBack}>Man 👨🏾</button>
-           <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.handleClickNext}>Woman 💁🏼‍♀️</button>
+           <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={() => this.setSex("Male")}>Man 👨🏾</button>
+           <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>Woman 💁🏼‍♀️</button>
                        </div>
        
-         <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.handleClickNext}>It's not that simple 🤷⁉️🤷🏻‍♀️</button>
+         <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>It's not that simple 🤷⁉️🤷🏻‍♀️</button>
        
                  </div>
 
@@ -495,11 +503,11 @@ class RegistrationSection extends React.Component{
            <div>
   
     <div className='btn-Group2' role='group'> 
-    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.handleClickBack}>👨🏾</button>
-    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.handleClickNext}>💁🏼‍♀️</button>
+    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.setSex("Male")}>👨🏾</button>
+    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.setSex("Female")}>💁🏼‍♀️</button>
                 </div>
 
-  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.handleClickNext}>🤷⁉️🤷🏻‍♀️</button>
+  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.setSex("Other")}>🤷⁉️🤷🏻‍♀️</button>
 
           </div>
         );
