@@ -288,14 +288,14 @@ class InitialPage extends React.Component{
 
       nextPage = () => {
 
-        console.log('Go to previous page')
+        
 
         const currentPage = this.state.page;
 
         console.log("leaving .." + currentPage)
 
         
-
+/*
         // Make sure the pages that require user input HAVE input before proceeding 
         if (currentPage == 'Name'){
           if (this.state.name == null){
@@ -303,6 +303,12 @@ class InitialPage extends React.Component{
             return;
           }
         }
+        
+        
+       */
+        
+
+        
 
         console.log("The entered name is " + this.state.name);
         
@@ -337,10 +343,10 @@ class InitialPage extends React.Component{
 
           <Question page={this.state.page} userData={this.state} />
 
-          <RegistrationSection page={this.state.page} pageSetter={this.goToPage} className="registrationSection" dataSetter={this.setUserData} /> 
+          <RegistrationSection page={this.state.page} pageSetter={this.goToPage} className="registrationSection" dataSetter={this.setUserData} goToNext={this.nextPage}/> 
 
 
-          <PageControl goBack={this.previousPage} goToNext={this.nextPage} currentPage={this.state.page} /> 
+          <PageControl userData={this.state} goBack={this.previousPage} goToNext={this.nextPage} currentPage={this.state.page} /> 
 
 
         
@@ -434,6 +440,14 @@ class RegistrationSection extends React.Component{
 
     }
 
+    setGender = (gender) => {
+
+      this.props.dataSetter({sex: gender}); 
+      this.props.goToNext();
+
+
+    }
+
     componentDidMount() {
       
       
@@ -479,11 +493,11 @@ class RegistrationSection extends React.Component{
            <div>
   
            <div className='btn-Group2' role='group'> 
-           <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.handleClickBack}>Man 👨🏾</button>
-           <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.handleClickNext}>Woman 💁🏼‍♀️</button>
+           <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.setGender('Male')}>Man 👨🏾</button>
+           <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.setGender('Female')}>Woman 💁🏼‍♀️</button>
                        </div>
        
-         <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.handleClickNext}>It's not that simple 🤷⁉️🤷🏻‍♀️</button>
+         <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.setGender('Other')}>It's not that simple 🤷⁉️🤷🏻‍♀️</button>
        
                  </div>
 
@@ -495,11 +509,11 @@ class RegistrationSection extends React.Component{
            <div>
   
     <div className='btn-Group2' role='group'> 
-    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.handleClickBack}>👨🏾</button>
-    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.handleClickNext}>💁🏼‍♀️</button>
+    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.setGender('Male')}>👨🏾</button>
+    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.setGender('Female')}>💁🏼‍♀️</button>
                 </div>
 
-  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.handleClickNext}>🤷⁉️🤷🏻‍♀️</button>
+  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.setGender('Other')}>🤷⁉️🤷🏻‍♀️</button>
 
           </div>
         );
@@ -574,6 +588,8 @@ class BackAndNextButtons extends React.Component {
 
   handleClickNext = () => {
     console.log("Clicked back button");
+
+    console.log('BackAndNextButton; Page: ' + this.props.currentPage);
     this.props.goToNext();
   }
 
@@ -643,6 +659,10 @@ class BackAndNextButtons extends React.Component {
     
     constructor(props){
       super(props); 
+
+      this.goToNext = this.goToNext.bind(this);
+      this.goBack = this.goBack.bind(this);
+      
     }
 
     percentComplete() {
@@ -654,12 +674,43 @@ class BackAndNextButtons extends React.Component {
       return ((index+1) / total ) * 100;
     }
 
+    goToNext(){
+
+      console.log('Going to next from PAGE CONTROL');
+      console.log("The current page is: " + this.props.currentPage);
+
+      if (this.props.currentPage == 'Name'){  
+        if (this.props.userData.name == '' || this.props.userData.name == null){
+          alert('Please enter your name');
+          return;
+        } else {
+          this.props.goToNext();
+        }
+
+      }
+     else if (this.props.currentPage == 'Gender'){
+      if (this.props.userData.sex != null ){
+        this.props.goToNext(); 
+      } else {
+        return; 
+      }
+     }
+
+
+    }
+
+    goBack(){
+      this.props.goBack();
+    }
+
+
     render(){
 
       if (this.props.currentPage == 'Home') {
         return(null);
       }
 
+   
     
 
       return (
@@ -669,7 +720,7 @@ class BackAndNextButtons extends React.Component {
         <div> 
     
             
-             <BackAndNextButtons goBack={this.props.goBack} goToNext={this.props.goToNext} />
+             <BackAndNextButtons goBack={this.goBack} goToNext={this.goToNext} currentPage={this.props.currentPage} userData={this.props.userData} />
                 <LineProgressBar
                       className="ProgressBar"
                       width={!(isMobile) ? 1000 : 350}
