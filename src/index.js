@@ -88,7 +88,7 @@ class Question extends React.Component {
 
           return(
             <div>
-              <h1 className={!isMobile ? "title" : "title-mobile"}>Hey <span style={{fontWeight : 600}}>{this.props.userData.name}</span>, so since birth you've been a ... </h1>
+              <h1 className={!isMobile ? "title" : "title-mobile"}>Hey <span style={{fontWeight : 600}}>{this.props.userData.name}</span>, what do you identify as?</h1>
             </div>
             
           )
@@ -97,7 +97,7 @@ class Question extends React.Component {
 
         else if (page == 'Orientation'){
 
-          question = "As a man ... Tell me all of whom you like.";
+          question = "So what's your type?";
 
 
         }
@@ -442,6 +442,14 @@ class RegistrationSection extends React.Component{
      return; 
     }
 
+    setOrientation = (sex) => {
+
+      this.props.dataSetter({orientation: sex});
+     this.props.pageSetter('Birthlocation');
+     
+     return; 
+    }
+
     componentDidMount() {
       
       
@@ -503,27 +511,54 @@ class RegistrationSection extends React.Component{
            <div>
   
     <div className='btn-Group2' role='group'> 
-    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.setSex("Male")}>👨🏾</button>
-    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.setSex("Female")}>💁🏼‍♀️</button>
+    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={() => this.setSex("Male")}>👨🏾</button>
+    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>💁🏼‍♀️</button>
                 </div>
 
-  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.setSex("Other")}>🤷⁉️🤷🏻‍♀️</button>
+  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>🤷⁉️🤷🏻‍♀️</button>
 
           </div>
         );
 
       }
+
 
       else if (page == 'Orientation'){
 
+        if (!isMobile){
+          return(
+
+
+           <div>
+  
+           <div className='btn-Group2' role='group'> 
+           <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={() => this.setOrientation("Men")}>Men only 👨🏾</button>
+           <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={() => this.setOrientation("Women")}>Women only 💁🏼‍♀️</button>
+                       </div>
+       
+         <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={() => this.setOrientation("All")}>Everyone 💁🏼‍♀️👨🏾</button>
+       
+                 </div>
+
+          );
+        }
+
         return(
 
-          <div>
-            <h1> This is where we ask for the user's sexual orientation </h1>
+           <div>
+  
+    <div className='btn-Group2' role='group'> 
+    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={() => this.setOrientation("Men")}>👨🏾</button>
+    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={() => this.setOrientation("Women")}>💁🏼‍♀️</button>
+                </div>
+
+  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={() => this.setOrientation("All")}>💁🏼‍♀️👨🏾</button>
+
           </div>
         );
 
       }
+     
 
       else if (page == 'Birthlocation'){
 
