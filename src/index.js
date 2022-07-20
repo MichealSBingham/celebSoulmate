@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -10,6 +10,7 @@ import StarfieldAnimation from 'react-starfield-animation'
 import index from 'react-starfield-animation';
 import { LineProgressBar } from '@frogress/line'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import React, { useState } from 'react';
 
 // Images 
 
@@ -417,12 +418,17 @@ class InitialPage extends React.Component{
 
 class RegistrationSection extends React.Component{
 
+   
 
     // page: 
       // Home, Name, Gender, Orientation, Birthlocation, Birthday
     constructor(props){
       super(props); 
       //this.setSex = this.setSex.bind(this); 
+      this.state = {
+        location: null 
+      }
+      
 
     }
 
@@ -453,6 +459,11 @@ class RegistrationSection extends React.Component{
      return; 
     }
 
+    setLocation = (value) => {
+      console.log("got a location: " + value );
+      return; 
+    }
+
     componentDidMount() {
       
       
@@ -462,6 +473,7 @@ class RegistrationSection extends React.Component{
     render(){
 
       const page = this.props.page;
+      let location = this.state.location
     
       console.log('RegistrationSection page: ' + this.props.page);
       
@@ -566,12 +578,23 @@ class RegistrationSection extends React.Component{
       else if (page == 'Birthlocation'){
 
         return(
+        
 
-          <div>
-    <GooglePlacesAutocomplete
+        
+<div>
+      <h1 className="LocationSelector">City: {this.state.location}</h1>
+      <GooglePlacesAutocomplete
       apiKey={apiKey}
-    />
-  </div>
+        selectProps={{
+          
+          onChange: (res)=> {console.log(res)},
+        }}
+      />
+    </div>
+          
+         
+
+  
 
         );
       }
@@ -744,6 +767,33 @@ class BackAndNextButtons extends React.Component {
 
 
 
+
+function LocationSelector()  {
+
+  const [value, setValue] = useState(null);
+
+ const handleSelection = () => {
+
+  
+  setValue(value);
+  console.log("Selected: " + value);
+}
+ 
+
+  return (
+    <div>
+      <h1 className="LocationSelector">City: {value}</h1>
+      <GooglePlacesAutocomplete
+      apiKey={apiKey}
+        selectProps={{
+          value,
+          onChange: handleSelection,
+        }}
+      />
+    </div>
+  );
+
+}
 
 
 
