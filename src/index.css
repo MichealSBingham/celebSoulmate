@@ -91,6 +91,42 @@
   100%   { transform: translate(0, -0px); }   
 }
 
+@keyframes floating-horizontal {
+  0% { transform: translate(0,  0px); }
+  50%  { transform: translate(45, 0px); }
+  100%   { transform: translate(-0, 0px); }   
+}
+
+@keyframes float {
+	0% {
+		
+		transform: translatex(0px);
+	}
+	50% {
+	
+		transform: translatex(-20px);
+	}
+	100% {
+		
+		transform: translatex(0px);
+	}
+}
+
+@keyframes float-right {
+	0% {
+		
+		transform: translatex(0px);
+	}
+	50% {
+	
+		transform: translatex(20px);
+	}
+	100% {
+		
+		transform: translatex(0px);
+	}
+}
+
 .title{
     text-align: center;
     font-size: 48=px;
@@ -110,7 +146,12 @@
  
 }
 
-
+.buttonText{
+  text-align: center;
+  margin-top: 50px;
+  color: white;
+  font-weight: 100;
+}
 
 .Button {
   background-color: rgb(255, 255, 255, 0.15);
@@ -148,11 +189,127 @@
  
 }
 
+.ForwardButton{
+  background-image: url('./images/NextArrow.svg');
+  width: 90px; 
+  height: 20px;
+  background-repeat: no-repeat;
+  background-color: transparent;
 
+  text-align: center;
+  margin-left: 15px;
+  
+  border: none;
+  animation: float-right 3s ease-in-out infinite;
+
+
+  
+ 
+}
+
+.BackButton{
+  background-image: url('./images/BackArrow.svg');
+  width: 90px; 
+  height: 20px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  text-align: center;
+  margin-right: 15px;
+  border: none;
+  animation: float 3s ease-in-out infinite;
+
+}
+
+.ForwardButton-mobile{
+  background-image: url('./images/NextArrow.svg');
+  width: 90px; 
+  height: 20px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  transform: rotate(180deg);
+  text-align: center;
+  margin-left: 15px;
+  border: none;
+  animation: float-right 3s ease-in-out infinite;
+  
+
+  
+ 
+}
+
+.BackButton-mobile{
+  background-image: url('./images/BackArrow.svg');
+  width: 90px; 
+  height: 20px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  text-align: center;
+  margin-right: 15px;
+  border: none;
+  animation: float 3s ease-in-out infinite;
+
+}
+
+.btn-Group {
+  text-align: center;
+  margin-left: auto;
+margin-right: auto;
+margin-top: 50px;
+margin-bottom: 10px;
+}
+
+.nameForm{
+  text-align: center;
+  
+
+}
+
+.nameInput{
+  border: none;
+  border-bottom: 1.5px solid white;
+  background-color: transparent;
+  margin-top: 2.5%;
+  width: 40%;
+  height: 50px;
+  box-sizing: border-box;
+  outline: none;
+  
+  font-size: 30px;
+  color: #fff;
+  pointer-events: auto !important;
+}
+
+.nameInput-mobile{
+  border: none;
+  border-bottom: 1.5px solid white;
+  background-color: transparent;
+  margin-top: 2.5%;
+  width: 60%;
+  height: 50px;
+  box-sizing: border-box;
+  outline: none;
+  
+  font-size: 16px;
+  color: #fff;
+  pointer-events: auto !important;
+}
+
+
+::placeholder{
+  color: white;
+  opacity: 0.5;
+}
+
+
+.ProgressBar{
+  margin-left: auto;
+  margin-right: auto;
+ 
+}
 
 html, body 
 { 
- height: 100%;
+ 
  overflow: hidden;
 
 

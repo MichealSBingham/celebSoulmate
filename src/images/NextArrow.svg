@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="91px" height="20px" viewBox="0 0 91 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Next arrow</title>
+    <g id="Birthday" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Web" transform="translate(-808.000000, -950.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Page-Control" transform="translate(371.000000, 909.011910)">
+                <g transform="translate(281.000000, 0.000000)" id="Next-Button">
+                    <g transform="translate(158.500000, 0.000000)">
+                        <path id="Next-arrow" d="M69.0684755,41.5113577 L87.9975858,51.151834 L68.9277386,60.5108365 L68.986,52.511 L-0.0111108063,51.9999588 L-1.51106966,51.988848 L-1.48884804,48.9889303 L0.0111108063,49.0000412 L69.009,49.511 L69.0684755,41.5113577 Z"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="91px" height="20px" viewBox="0 0 91 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Back arrow</title>
+    <g id="Birthday" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Web" transform="translate(-651.000000, -950.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Page-Control" transform="translate(371.000000, 909.011910)">
+                <g transform="translate(281.000000, 0.000000)" id="Back-Button">
+                    <path id="Back-arrow" d="M18.4454131,41.3944425 L18.49,49.393 L87.4914287,49.0000245 L88.9914042,48.9914532 L89.0085468,51.9914042 L87.5085713,51.9999755 L18.508,52.393 L18.5539828,60.3941323 L-0.499991837,51.0028571 L18.4454131,41.3944425 Z"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

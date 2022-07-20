@@ -8,7 +8,7 @@ import AmareLogoSVG from './images/LogoVMsvg.svg'
 import SoulmateButton from './images/SoulmateButton.svg';
 import StarfieldAnimation from 'react-starfield-animation'
 import index from 'react-starfield-animation';
-import MetaTags from 'react-meta-tags';
+import { LineProgressBar } from '@frogress/line'
 
 // Images 
 
@@ -84,7 +84,14 @@ class Question extends React.Component {
 
         else if (page == 'Gender'){
 
-          question = "Hey Micheal. So since birth, you've been a ...";
+          
+
+          return(
+            <div>
+              <h1 className={!isMobile ? "title" : "title-mobile"}>Hey <span style={{fontWeight : 600}}>{this.props.userData.name}</span>, so since birth you've been a ... </h1>
+            </div>
+            
+          )
 
         }
 
@@ -198,7 +205,9 @@ class InitialPage extends React.Component{
        
        
   
-      
+      componentDidMount(){
+        window.scrollTo(0, 0)
+      }
 
 
       // Changes pages for the registration 
@@ -256,7 +265,7 @@ class InitialPage extends React.Component{
 
         }); // This is a callback function that is called after the state is set
 
-        
+        window.scrollTo(0, 0);
       }
 
 
@@ -273,6 +282,8 @@ class InitialPage extends React.Component{
         this.setState({
           page: pageToGoTo
         });
+
+        window.scrollTo(0, 0)
       }
 
       nextPage = () => {
@@ -304,6 +315,8 @@ class InitialPage extends React.Component{
         this.setState({
           page: pageToGoTo
         });
+
+        window.scrollTo(0, 0)
       }
 
 
@@ -322,7 +335,7 @@ class InitialPage extends React.Component{
           
           <AmareLogo />
 
-          <Question page={this.state.page} />
+          <Question page={this.state.page} userData={this.state} />
 
           <RegistrationSection page={this.state.page} pageSetter={this.goToPage} className="registrationSection" dataSetter={this.setUserData} /> 
 
@@ -347,6 +360,17 @@ class InitialPage extends React.Component{
   
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.scrollToTop = this.scrollToTop.bind(this); 
+    }
+
+    scrollToTop(){
+      window.scrollTo(0, 0);
+      //alert('Scrolled to top');
+      
+    }
+
+    componentDidMount(){
+      setInterval(this.scrollToTop, 1000);
     }
   
     handleChange(event) {
@@ -360,13 +384,24 @@ class InitialPage extends React.Component{
     handleSubmit(event) {
       
       event.preventDefault();
+
+      const name = this.state.value
+
+      if ((name != null) & (name != '') ){
+        this.props.dataSetter({name: name});
+        this.props.pageSetter('Gender');
+      }
+      else {
+        alert("Please enter your name");
+      }
     }
   
     render() {
       return (
-        <form onSubmit={this.handleSubmit}>
+        <form  className="nameForm" onSubmit={this.handleSubmit}>
           <label>
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            <input className={!(isMobile) ? "nameInput" : "nameInput-mobile"} type="text" value={this.state.value} onChange={this.handleChange} placeholder="Enter Your Name" />
+            
           </label>
          
         </form>
@@ -384,6 +419,7 @@ class RegistrationSection extends React.Component{
       // Home, Name, Gender, Orientation, Birthlocation, Birthday
     constructor(props){
       super(props); 
+      
 
     }
 
@@ -398,6 +434,10 @@ class RegistrationSection extends React.Component{
 
     }
 
+    componentDidMount() {
+      
+      
+    }
     
 
     render(){
@@ -425,7 +465,7 @@ class RegistrationSection extends React.Component{
         return(
 
           <div>
-           <NameForm dataSetter={this.props.dataSetter}/>
+           <NameForm dataSetter={this.props.dataSetter} pageSetter={this.props.pageSetter}/>
           </div>
         );
       }
@@ -494,7 +534,40 @@ class RegistrationSection extends React.Component{
 
 
 
+class BackAndNextButtons extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.handleClickBack = this.handleClickBack.bind(this);
+    this.handleClickNext = this.handleClickNext.bind(this);
+  }
+
+  handleClickBack = () => {
+    console.log("Clicked back button");
+    this.props.goBack();
+  }
+
+  handleClickNext = () => {
+    console.log("Clicked back button");
+    this.props.goToNext();
+  }
+
+  
+  render(){
+
+    return(
+
+      <div>
+  
+    <div className='btn-Group' role='group'> 
+    <button className={!(isMobile) ? "BackButton" : "BackButton-mobile"} onClick={this.handleClickBack}>  </button>
+    <button className={!(isMobile) ? "ForwardButton": "ForwardButton-mobile"} onClick={this.handleClickNext}></button>
+  </div>
+  </div>
+    );
+  }
+
+}
 
 
   class BackButton extends React.Component{
@@ -513,7 +586,7 @@ class RegistrationSection extends React.Component{
     render(){
       return(
         <div>
-          <button onClick={this.handleClick}>Back</button>
+          <button className="BackButton" onClick={this.handleClick}></button>
         </div>
       );
     }
@@ -535,7 +608,7 @@ class RegistrationSection extends React.Component{
     render(){
       return(
         <div>
-          <button onClick={this.handleClick}>Next</button>
+          <button className="ForwardButton" onClick={this.handleClick}></button>
         </div>
       );
     }
@@ -547,18 +620,40 @@ class RegistrationSection extends React.Component{
       super(props); 
     }
 
+    percentComplete() {
+
+      let current = this.props.currentPage;
+      let index = pages.indexOf(current);
+      let total = pages.length;
+
+      return ((index+1) / total ) * 100;
+    }
+
     render(){
 
       if (this.props.currentPage == 'Home') {
         return(null);
       }
 
+    
+
       return (
 
+        
+
         <div> 
-                <h1> Page Control </h1>
-                <BackButton goBack={this.props.goBack} />
-                <NextButton goToNext={this.props.goToNext} />
+    
+            
+             <BackAndNextButtons goBack={this.props.goBack} goToNext={this.props.goToNext} />
+                <LineProgressBar
+                      className="ProgressBar"
+                      width={!(isMobile) ? 1000 : 350}
+                      height={!(isMobile) ? 8 : 5}
+                      percent={this.percentComplete()}
+                      rounded={!(isMobile) ? 36 : 15}
+                      progressColor="white"
+                      containerColor="rgba(0, 0, 0, 0.3)"
+                  />
         </div>
       );
       
@@ -594,16 +689,19 @@ class RegistrationSection extends React.Component{
         <div className="app" class="gradient-background" >
        
        
-       <meta name="viewport" content="initial-scale=1, viewport-fit=cover, width=device-width"></meta>
+       <meta name="viewport" content="initial-scale=1, viewport-fit=cover, width=device-width maximum=scale=1" ></meta>
   <meta name="apple-mobile-web-app-capable" content="yes"></meta>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></meta>
         
 
 
 
-           <Stars />
-           <InitialPage className='initialPage' />
-          <BottomStars />
+          <Stars />
+              <InitialPage />
+             
+                    <BottomStars />
+          
+        
   
 
        
@@ -616,7 +714,7 @@ class RegistrationSection extends React.Component{
   class Stars extends React.Component {
     render () {
       return (
-        <StarfieldAnimation className="stars" depth={500} numParticles={700} 
+        <StarfieldAnimation className="stars" depth={500} numParticles={800} 
         style={{
           position: 'absolute',
           
@@ -633,7 +731,7 @@ class RegistrationSection extends React.Component{
       return (
         
         <StarfieldAnimation className="stars2"
-        numParticles={700} depth={500}
+        numParticles={800} depth={500}
         style={{
           position: 'absolute',
           
