@@ -9,6 +9,7 @@ import SoulmateButton from './images/SoulmateButton.svg';
 import StarfieldAnimation from 'react-starfield-animation'
 import index from 'react-starfield-animation';
 import { LineProgressBar } from '@frogress/line'
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 // Images 
 
@@ -30,6 +31,8 @@ const isMobile = resolution >= 320 && resolution <= 480;
 const isTablet = resolution >= 768 && resolution <= 1024;
 const isDesktop = !isMobile && !isTablet;
 
+
+const apiKey = "AIzaSyBzLx3X3TOlhv7k4U8n3pRTK5zJLXrlcAA"; 
 //=========================================================
 
 
@@ -565,8 +568,11 @@ class RegistrationSection extends React.Component{
         return(
 
           <div>
-            <h1> This is where we ask for the user's birth city </h1>
-          </div>
+    <GooglePlacesAutocomplete
+      apiKey={apiKey}
+    />
+  </div>
+
         );
       }
 
