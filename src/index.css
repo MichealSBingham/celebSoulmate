@@ -171,6 +171,98 @@
  
 }
 
+.MaleButton {
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  width: 715px;
+  height: 80px;
+  border-radius: 43px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 50px;
+  
+ 
+}
+
+.MaleButton-mobile{
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  font-size: 70px;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.FemaleButton-mobile{
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  font-size: 70px;
+  margin-left: 20px;
+  text-align: center;
+}
+
+.FemaleButton {
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  width: 715px;
+  height: 80px;
+  border-radius: 43px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 50px;
+  
+ 
+}
+
+.MoreGendersButton {
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  width: 715px;
+  height: 80px;
+  border-radius: 43px;
+  font-family: 'Montserrat Alternates', sans-serif;
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 50px;
+  font-weight: 800;
+  
+ 
+}
+
+.MoreGendersButton-mobile {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  font-size: 30px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  display: block;
+  
+ 
+}
+
 .Button-mobile {
   background-color: rgb(255, 255, 255, 0.15);
   border: none;
@@ -258,6 +350,13 @@ margin-top: 50px;
 margin-bottom: 10px;
 }
 
+.btn-Group2 {
+  text-align: center;
+  margin-left: auto;
+margin-right: auto;
+margin-top: 50px;
+margin-bottom: 10px;
+}
 .nameForm{
   text-align: center;
   

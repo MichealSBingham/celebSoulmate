@@ -472,10 +472,35 @@ class RegistrationSection extends React.Component{
 
       else if (page == 'Gender'){
 
+        if (!isMobile){
+          return(
+
+
+           <div>
+  
+           <div className='btn-Group2' role='group'> 
+           <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.handleClickBack}>Man 👨🏾</button>
+           <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.handleClickNext}>Woman 💁🏼‍♀️</button>
+                       </div>
+       
+         <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.handleClickNext}>It's not that simple 🤷⁉️🤷🏻‍♀️</button>
+       
+                 </div>
+
+          );
+        }
+
         return(
 
-          <div>
-            <h1> This is where we ask for the user's gender </h1>
+           <div>
+  
+    <div className='btn-Group2' role='group'> 
+    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={this.handleClickBack}>👨🏾</button>
+    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={this.handleClickNext}>💁🏼‍♀️</button>
+                </div>
+
+  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={this.handleClickNext}>🤷⁉️🤷🏻‍♀️</button>
+
           </div>
         );
 
