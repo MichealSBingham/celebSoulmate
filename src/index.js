@@ -218,7 +218,8 @@ class InitialPage extends React.Component{
       this.setUserData.bind(this); 
       this.setLoadingStateForLocation.bind(this); 
       this.loadingTimestamp.bind(this); 
-      this.setStateForLoadingPerson.bind(this); 
+      this.setLoadingStateForPerson.bind(this); 
+      this.findMatch.bind(this);
       
 
       this.state = {
@@ -234,7 +235,7 @@ class InitialPage extends React.Component{
       }
 
 
-      setStateForLoadingPerson = (state) => {
+      setLoadingStateForPerson = (state) => {
         this.setState({
           loadingPerson: state
         })
@@ -369,10 +370,18 @@ class InitialPage extends React.Component{
       }
 
 
-      setUserData = (data) => {
+      setUserData = (data, callback) => {
 
       
-        this.setState(data);
+        this.setState(data, 
+          
+          () => {
+
+            if (typeof callback == "function")
+                callback();
+
+
+          });
   
        
       }
@@ -382,9 +391,53 @@ class InitialPage extends React.Component{
         this.setState({loadingTimestamp: isLoading});
       }
 
+
+      findMatch = () => {
+        console.log("looking for match ..")
+        //console.log("Finding match ..." + this.state); 
+
+        const name = this.state.name;
+        console.log("The name is " + name);
+        const birthLocation = this.state.location;
+        console.log("The birth location is " + birthLocation.latitude);
+        const birthday = this.state.birthday;
+        console.log("The birthday is " + birthday);
+        const gender = this.state.gender; 
+        console.log("The gender: " + gender )
+        const orientation = this.state.orientation; 
+        console.log("the orienation : " + orientation )
+
+      
+
+
+      }
+
       
 
     render(){
+
+      if (this.state.page == 'Results'){
+
+        if (this.state.loadingPerson == true){
+          
+          //TODO: Show loading screen
+          return (
+            <h1> Loading ...  </h1>
+          )
+
+        } else{
+
+          
+          return (
+            <h1> Done Loading .. </h1>
+          )
+        }
+        
+       
+
+      }
+
+
       return(
         <div >
           
@@ -392,7 +445,7 @@ class InitialPage extends React.Component{
 
           <Question page={this.state.page} userData={this.state} />
 
-          <RegistrationSection page={this.state.page} pageSetter={this.goToPage} className="registrationSection" dataSetter={this.setUserData} locationLoadingState = {this.setLoadingStateForLocation} loadingTimestamp={this.loadingTimestamp}/> 
+          <RegistrationSection findMatch={this.findMatch} page={this.state.page} pageSetter={this.goToPage} className="registrationSection" dataSetter={this.setUserData} locationLoadingState = {this.setLoadingStateForLocation} loadingTimestamp={this.loadingTimestamp}/> 
 
 
           <PageControl setLoadingStateForPerson = {this.setLoadingStateForPerson} goBack={this.previousPage} goToNext={this.nextPage} currentPage={this.state.page} locationLoadingState = {this.setLoadingStateForLocation} loadingStates = {this.state} /> 
@@ -516,10 +569,14 @@ class RegistrationSection extends React.Component{
     }
 
     //TODO: Handle error if we cannot get the lat/lon 
-    errorHappened = () => {
+    errorHappened = (error) => {
      // this.props.pageSetter('Home');
-     this.loadingForLocation(null);
+      if (error != null) {
+
+        this.loadingForLocation(null);
       alert("An error happened. Try again.")
+      }
+     
     }
 
 
@@ -552,7 +609,7 @@ class RegistrationSection extends React.Component{
 
       )
 
-      .catch(error => this.errorHappened());
+      .catch(error => this.errorHappened(error));
 
       
 
@@ -568,6 +625,24 @@ class RegistrationSection extends React.Component{
       
     }
 
+    process = (stamp, json) => {
+
+         console.log(json);
+
+        const offset = json.rawOffset + json.dstOffset;
+        console.log("offset: " + offset);
+        console.log(stamp-offset);
+
+        this.loadingForLocation(false); 
+        let timestamp = stamp-offset;
+        console.log("after loading  timestamp: " + timestamp);
+        this.props.dataSetter({birthday: timestamp}, () => {
+          console.log("<<< . find match after data setter..");
+          this.props.findMatch(); 
+        });
+       
+        
+     } 
     
 
 
@@ -591,45 +666,23 @@ class RegistrationSection extends React.Component{
          const lon = this.state.location.lon;
          const url = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lon}&timestamp=${stamp}&key=${apiKey}`
 
+          
 
 
+      fetch(url)
+      .then(response => response.json())
+      .then(json => this.process(stamp, json) )
+     
 
-          fetch(url)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (json) {
-        console.log(json);
-
-        const offset = json.rawOffset + json.dstOffset;
-        console.log("offset: " + offset);
-        console.log(stamp-offset);
     
-        this.props.loadingForLocation(false); 
-        return stamp - offset;
-
-      })
-/*
-      .then(response => {
-        
-        let res = response.json()
-        console.log("response: " + res);
-      
-      })
-      */
-      .catch(error => this.errorHappened())
+       // This is a callback function that is called after the state is set
+        })
 
 
-
-
-        } // This is a callback function that is called after the state is set
-      ) 
-
-
-
+//==========================================================================================
       // Testing date 
 
-      return; 
+      
     }
 
      stringDateToTimestamp = (strDate) => {  
@@ -827,7 +880,7 @@ class RegistrationSection extends React.Component{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop: '10%',
+           marginTop: !isMobile ?  '2.5%' :  '10%'
           
             
           }}>
@@ -861,7 +914,7 @@ class RegistrationSection extends React.Component{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop: '10%',
+            marginTop: !isMobile ?  '2.5%' :  '10%',
           
             
           }}>
@@ -922,8 +975,21 @@ class BackAndNextButtons extends React.Component {
 
   handleClickNext = () => {
     console.log("Clicked back button");
+
+    if (this.props.page == 'Time'){
+      console.log("Loading a person");
+      this.props.setLoadingStateForPerson(true);
+
+
+      
+    }
+
+   
     this.props.goToNext();
   }
+
+
+
 
   
   render(){
@@ -936,6 +1002,8 @@ class BackAndNextButtons extends React.Component {
           </div>
       )
     }
+
+   
 
     return(
 
@@ -1026,7 +1094,7 @@ class BackAndNextButtons extends React.Component {
         <div> 
     
             
-             <BackAndNextButtons isLoading = {this.props.locationLoadingState} goBack={this.props.goBack} goToNext={this.props.goToNext} />
+             <BackAndNextButtons page={this.props.currentPage} setLoadingStateForPerson={this.props.setLoadingStateForPerson} isLoading = {this.props.locationLoadingState} goBack={this.props.goBack} goToNext={this.props.goToNext} />
                 <LineProgressBar
                       className="ProgressBar"
                       width={!(isMobile) ? 1000 : 350}
