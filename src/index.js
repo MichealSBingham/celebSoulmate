@@ -11,6 +11,12 @@ import index from 'react-starfield-animation';
 import { LineProgressBar } from '@frogress/line'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import React, { useState } from 'react';
+import Datetime from "react-datetime";
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import TextField from '@mui/material/TextField';
+import moment from 'moment';
+import { geocodeByPlaceId, getLatLng } from 'react-google-places-autocomplete';
+
 
 // Images 
 
@@ -35,7 +41,6 @@ const isDesktop = !isMobile && !isTablet;
 
 const apiKey = "AIzaSyBzLx3X3TOlhv7k4U8n3pRTK5zJLXrlcAA"; 
 //=========================================================
-
 
 
 
@@ -117,6 +122,10 @@ class Question extends React.Component {
           question = "When were you born?";
         }
 
+        else if (page =='Time'){
+          question ="What time were you born?"; 
+        }
+
         else {
           question = null; 
         }
@@ -186,7 +195,7 @@ class AmareLogo extends React.Component{
   }
 
 
-const pages = ['Home', 'Name', 'Gender', 'Orientation', 'Birthlocation', 'Birthday', 'Results']
+const pages = ['Home', 'Name', 'Gender', 'Orientation', 'Birthlocation', 'Birthday', 'Time', 'Results']
 class InitialPage extends React.Component{
 
     constructor(props) {
@@ -196,6 +205,8 @@ class InitialPage extends React.Component{
       this.previousPage.bind(this); 
       this.nextPage.bind(this);
       this.setUserData.bind(this); 
+      
+
       this.state = {
         question: "Let's Ask The Stars To Find Your Celebrity... ",
         page: "Home", 
@@ -425,8 +436,12 @@ class RegistrationSection extends React.Component{
     constructor(props){
       super(props); 
       //this.setSex = this.setSex.bind(this); 
+      this.setLocation.bind(this); 
       this.state = {
-        location: null 
+        location: null, 
+        date: null, 
+        time: null, 
+        loading: null
       }
       
 
@@ -459,10 +474,150 @@ class RegistrationSection extends React.Component{
      return; 
     }
 
+
+    errorHappened = () => {
+      this.props.pageSetter('Home');
+      alert("An error happened. Try again.")
+    }
+
+    // Gets the latitude and longitude and sets in database 
     setLocation = (value) => {
       console.log("got a location: " + value );
+
+      geocodeByPlaceId(value)
+      //.then(results => console.log(results))
+      .then(results => getLatLng(results[0]))
+      .then(({ lat, lng }) =>
+
+      this.setState({location: {
+        lat: lat,
+        lon: lng
+      }}))
+
+      .catch(error => this.errorHappened());
+
+      
+
+      // Get latitude and longitude of the location and will also get the offset 
       return; 
     }
+
+    setDate = (value) => {
+
+      console.log("setting date: " + value );
+      this.setState({date: value})
+      return; 
+      
+    }
+
+
+    setTime = (value) => {
+      console.log("setting time: " + value );
+      //this.setState({time: value})
+
+
+      this.setState({time: value }, 
+        () => {
+
+          const date = this.state.date  + " " + this.state.time +  "Z";
+
+          //converts the date to the proper timezone 
+
+          const stamp = moment(date).unix();  
+
+          const lat = this.state.location.lat;
+         const lon = this.state.location.lon;
+         const url = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lon}&timestamp=${stamp}&key=${apiKey}`
+
+
+
+
+          fetch(url)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (json) {
+        console.log(json);
+
+        const offset = json.rawOffset + json.dstOffset;
+        console.log("offset: " + offset);
+        console.log(stamp-offset);
+      
+        return stamp - offset;
+
+      })
+/*
+      .then(response => {
+        
+        let res = response.json()
+        console.log("response: " + res);
+      
+      })
+      */
+      .catch(error => this.errorHappened())
+
+
+
+
+        } // This is a callback function that is called after the state is set
+      ) 
+
+
+
+      // Testing date 
+
+      return; 
+    }
+
+     stringDateToTimestamp = (strDate) => {  
+     // const offset = -18000
+      const stamp = moment(strDate).unix();  
+
+      const lat = this.state.location.lat;
+      const lon = this.state.location.lon;
+
+      const url = `https://maps.googleapis.com/maps/api/timezone/json?location=${lat},${lon}&timestamp=${stamp}&key=${apiKey}`
+
+
+      fetch(url)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (json) {
+        console.log(json);
+
+        const offset = json.rawOffset + json.dstOffset;
+        console.log("offset: " + offset);
+        console.log(stamp-offset);
+      
+        return stamp - offset;
+
+      })
+/*
+      .then(response => {
+        
+        let res = response.json()
+        console.log("response: " + res);
+      
+      })
+      */
+      .catch(error => this.errorHappened())
+
+
+
+     // const dt = stamp - offset; 
+
+      //return dt;  
+    }
+    
+    
+    locationToOffset = (location) => {
+
+    }
+
+
+    
+
 
     componentDidMount() {
       
@@ -582,12 +737,12 @@ class RegistrationSection extends React.Component{
 
         
 <div>
-      <h1 className="LocationSelector">City: {this.state.location}</h1>
+      
       <GooglePlacesAutocomplete
       apiKey={apiKey}
         selectProps={{
           
-          onChange: (res)=> {console.log(res)},
+          onChange: (res)=> {this.setLocation(res.value.place_id)},
         }}
       />
     </div>
@@ -604,9 +759,44 @@ class RegistrationSection extends React.Component{
         return(
 
           <div>
-            <h1> This is where we ask for the user's birthday </h1>
+            <TextField
+        id="date"
+        label="Birthday"
+        type="date"
+        
+        sx={{ width: 220 }}
+        InputLabelProps={{
+          shrink: true,
+        }}
+        onChange={(e) => {this.setDate(e.target.value)}}
+      />
           </div>
         );
+
+      }
+
+
+      else if (page =='Time'){
+
+        return(
+
+          <div>
+            <TextField
+        id="time"
+        label="Time"
+        type="time"
+        defaultValue="07:30"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        inputProps={{
+          step: 300, // 5 min
+        }}
+        sx={{ width: 150 }}
+        onChange={(e) => {this.setTime(e.target.value)}}
+      />
+            </div>
+        ); 
 
       }
 
