@@ -16,6 +16,9 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import TextField from '@mui/material/TextField';
 import moment from 'moment';
 import { geocodeByPlaceId, getLatLng } from 'react-google-places-autocomplete';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
 
 
 // Images 
@@ -24,6 +27,7 @@ import { geocodeByPlaceId, getLatLng } from 'react-google-places-autocomplete';
 const logo2 = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Venus_symbol.svg/2048px-Venus_symbol.svg.png";
 const logo = "https://i.ibb.co/vch2ZC4/amare-logo-no-background.png";
 const backgroundStyle = { backgroundColor: 'pink', 
+
 backgroundSize: 'cover',
 
 backgroundRepeat: 'no-repeat',
@@ -44,7 +48,14 @@ const apiKey = "AIzaSyBzLx3X3TOlhv7k4U8n3pRTK5zJLXrlcAA";
 
 
 
-
+const theme = createTheme({
+  palette: {
+    mode: "dark", 
+    
+   
+   
+  },
+});
 
 
 
@@ -205,18 +216,41 @@ class InitialPage extends React.Component{
       this.previousPage.bind(this); 
       this.nextPage.bind(this);
       this.setUserData.bind(this); 
+      this.setLoadingStateForLocation.bind(this); 
+      this.loadingTimestamp.bind(this); 
+      this.setStateForLoadingPerson.bind(this); 
       
 
       this.state = {
         question: "Let's Ask The Stars To Find Your Celebrity... ",
         page: "Home", 
-        name: null 
+        name: null, 
+        isLoadingForLocation: null, 
+        loadingTimestamp: null, 
+        loadingPerson: null
        };
 
       
       }
 
+
+      setStateForLoadingPerson = (state) => {
+        this.setState({
+          loadingPerson: state
+        })
+      }
+      
+
+      // Sets the loading state for when we're grabbing the location... i.e. when the user sets their birth location, there should be some type of indication that it's loading the lat/lon since this is async 
+      setLoadingStateForLocation = (state) => {
+        this.setState({isLoadingForLocation: state});
+        
+      }
+
+
+
        // This function is called when the user clicks on the button
+       
        
        
   
@@ -342,6 +376,12 @@ class InitialPage extends React.Component{
   
        
       }
+
+      loadingTimestamp = (isLoading) => { 
+
+        this.setState({loadingTimestamp: isLoading});
+      }
+
       
 
     render(){
@@ -352,10 +392,10 @@ class InitialPage extends React.Component{
 
           <Question page={this.state.page} userData={this.state} />
 
-          <RegistrationSection page={this.state.page} pageSetter={this.goToPage} className="registrationSection" dataSetter={this.setUserData} /> 
+          <RegistrationSection page={this.state.page} pageSetter={this.goToPage} className="registrationSection" dataSetter={this.setUserData} locationLoadingState = {this.setLoadingStateForLocation} loadingTimestamp={this.loadingTimestamp}/> 
 
 
-          <PageControl goBack={this.previousPage} goToNext={this.nextPage} currentPage={this.state.page} /> 
+          <PageControl setLoadingStateForPerson = {this.setLoadingStateForPerson} goBack={this.previousPage} goToNext={this.nextPage} currentPage={this.state.page} locationLoadingState = {this.setLoadingStateForLocation} loadingStates = {this.state} /> 
 
 
         
@@ -437,11 +477,12 @@ class RegistrationSection extends React.Component{
       super(props); 
       //this.setSex = this.setSex.bind(this); 
       this.setLocation.bind(this); 
+      this.loadingForLocation.bind(this);
       this.state = {
         location: null, 
         date: null, 
         time: null, 
-        loading: null
+     
       }
       
 
@@ -474,15 +515,25 @@ class RegistrationSection extends React.Component{
      return; 
     }
 
-
+    //TODO: Handle error if we cannot get the lat/lon 
     errorHappened = () => {
-      this.props.pageSetter('Home');
+     // this.props.pageSetter('Home');
+     this.loadingForLocation(null);
       alert("An error happened. Try again.")
     }
 
+
+    //TODO: 
+    // this is called to set the loading state of lat and lon/ 
+    loadingForLocation = (isLoading) => {
+      console.log("Loading for location: " + isLoading)
+    this.props.locationLoadingState(isLoading);
+    } 
+
     // Gets the latitude and longitude and sets in database 
     setLocation = (value) => {
-      console.log("got a location: " + value );
+      
+      this.loadingForLocation(true);
 
       geocodeByPlaceId(value)
       //.then(results => console.log(results))
@@ -492,7 +543,14 @@ class RegistrationSection extends React.Component{
       this.setState({location: {
         lat: lat,
         lon: lng
-      }}))
+      }}, () => {
+
+        this.loadingForLocation(false);
+        this.props.dataSetter({location: {latitude: lat, longitude: lng}});
+        this.props.pageSetter('Birthday');
+      })
+
+      )
 
       .catch(error => this.errorHappened());
 
@@ -510,6 +568,8 @@ class RegistrationSection extends React.Component{
       
     }
 
+    
+
 
     setTime = (value) => {
       console.log("setting time: " + value );
@@ -518,6 +578,8 @@ class RegistrationSection extends React.Component{
 
       this.setState({time: value }, 
         () => {
+
+          this.props.loadingTimestamp(true);
 
           const date = this.state.date  + " " + this.state.time +  "Z";
 
@@ -542,7 +604,8 @@ class RegistrationSection extends React.Component{
         const offset = json.rawOffset + json.dstOffset;
         console.log("offset: " + offset);
         console.log(stamp-offset);
-      
+    
+        this.props.loadingForLocation(false); 
         return stamp - offset;
 
       })
@@ -736,13 +799,15 @@ class RegistrationSection extends React.Component{
         
 
         
-<div>
+<div className='google'>
       
-      <GooglePlacesAutocomplete
+      <GooglePlacesAutocomplete className="GooglePlacesAutocomplete"
       apiKey={apiKey}
         selectProps={{
           
-          onChange: (res)=> {this.setLocation(res.value.place_id)},
+          onChange: (res)=> {this.setLocation(res.value.place_id)}
+
+    
         }}
       />
     </div>
@@ -758,29 +823,49 @@ class RegistrationSection extends React.Component{
 
         return(
 
-          <div>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: '10%',
+          
+            
+          }}>
+            <ThemeProvider theme={theme}>
             <TextField
         id="date"
         label="Birthday"
         type="date"
-        
+        className='date'
+      color="primary"
         sx={{ width: 220 }}
         InputLabelProps={{
           shrink: true,
+         
+         
         }}
         onChange={(e) => {this.setDate(e.target.value)}}
       />
+       </ThemeProvider>
           </div>
         );
 
       }
-
+     
 
       else if (page =='Time'){
 
         return(
 
-          <div>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: '10%',
+          
+            
+          }}>
+            <ThemeProvider theme={theme}>
             <TextField
         id="time"
         label="Time"
@@ -795,6 +880,7 @@ class RegistrationSection extends React.Component{
         sx={{ width: 150 }}
         onChange={(e) => {this.setTime(e.target.value)}}
       />
+      </ThemeProvider>
             </div>
         ); 
 
@@ -841,6 +927,15 @@ class BackAndNextButtons extends React.Component {
 
   
   render(){
+
+
+    if ( this.props.locationLoadingState  == false ){
+      return (
+        <div>
+          <h1> Loading ... </h1>
+          </div>
+      )
+    }
 
     return(
 
@@ -931,7 +1026,7 @@ class BackAndNextButtons extends React.Component {
         <div> 
     
             
-             <BackAndNextButtons goBack={this.props.goBack} goToNext={this.props.goToNext} />
+             <BackAndNextButtons isLoading = {this.props.locationLoadingState} goBack={this.props.goBack} goToNext={this.props.goToNext} />
                 <LineProgressBar
                       className="ProgressBar"
                       width={!(isMobile) ? 1000 : 350}
