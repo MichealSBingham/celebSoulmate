@@ -418,7 +418,26 @@ class InitialPage extends React.Component{
         const orientation = this.state.orientation; 
         console.log("the orienation : " + orientation )
 
+        let celebName = "Will Smith"
+        let celebBio = bioSample
+        let celebImage = profileImage2
+        let celebOneLiner = oneLiner
+        let sex = Math.floor(Math.random() * 100)
+        let love = Math.floor(Math.random() * 100)
+        let chemistry = Math.floor(Math.random() * 100)
         
+        this.setState({
+          celebName: celebName, 
+          celebBio: celebBio,
+          celebImage: celebImage,
+          celebOneLiner: celebOneLiner,
+          sex: sex, 
+          chemistry: chemistry, 
+          love: sex
+        })
+
+
+
         this.setState({loadingPerson: false}, 
           
           () => {
@@ -437,7 +456,7 @@ class InitialPage extends React.Component{
 
       if (this.state.page == 'Results'){
 
-        if (this.state.loadingPerson == true){
+        if (false){
           
           //TODO: Show loading screen
           return (
@@ -449,7 +468,7 @@ class InitialPage extends React.Component{
           
           return (
             
-            <CelebrityProfile name="Andrea Bellew" image={profileImage2} bio={bioSample} oneLiner={oneLiner}/>
+            <CelebrityProfile name={this.state.celebName} image={this.state.celebImage} bio={this.state.celebBio} oneLiner={this.state.celebOneLiner} chemistry={this.state.chemistry} love={this.state.love} sex={this.state.sex}/>
           )
         }
         
@@ -1332,5 +1351,5 @@ function LocationSelector()  {
   
   const root = ReactDOM.createRoot(document.getElementById("root"));
   //root.render(<App />);
-  root.render(<App2 />);
+  root.render(<App />);
 //root.render(<CelebrityProfile name="Andrea Bellew" image={profileImage} bio={bioSample} oneLiner={oneLiner}/>  );
