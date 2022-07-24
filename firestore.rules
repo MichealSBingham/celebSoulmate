@@ -1,0 +1,321 @@
+
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+ //match /{document=**}{
+ //allow read, write: if true 
+// }
+   
+  match /DiscoveryTokenDocument/{document}{
+  
+  allow read, write: if true 
+  }
+  
+  // For reading basic user data 
+  match /users/{userId}{
+  
+  // This doesn't contain any sensitive data so we can allow users to see this
+  
+  	function signedIn() {
+      return request.auth.uid != null;
+    }
+    
+    function ownsData(){
+    return request.auth.uid == userId;
+    }
+    
+    function notReal(){
+    return !(request.resource.data.isReal)
+    }
+    
+    
+//     function isNotable(){
+//      return resource.data.isNotable 
+//     }
+    
+    
+    
+    
+//     function isPublic(){
+//     return resource.data.isPublic 
+//     }
+   
+   
+    allow read : if signedIn() 
+    allow write: if signedIn() && (ownsData() || notReal()) 
+    
+    // For reading a user's natal chart 
+    match /public/{documents=**}{
+  // Allows users to read others' natal chart 'public'is misnamed but whatever, should probably be 'private' instead 
+  
+  // function ownsData(){
+  //   return request.auth.uid == userId;
+  //   }
+  
+    function isNotable(){
+    return resource.data.isNotable 
+    }
+    
+    function notReal(){
+    return !(resource.data.isReal)
+    }
+    
+    function areFriends(){
+    
+    return exists(/databases/$(database)/documents/friends/$(userId)/myFriends/$(request.auth.uid))
+    
+    }
+    
+    
+  allow write: if false  
+
+  allow read: if areFriends() || isNotable() || ownsData() || notReal()
+  
+    }
+  
+  }
+  
+  
+  // As of now, you only NEED to see your OWN friends and any document in this can be read so
+  //TODO: for deletion 
+   match /friends/{userId}{
+    
+   function signedIn() {
+      return request.auth.uid != null;
+    }
+    
+    function ownsData(){
+    return request.auth.uid == userId;
+    }
+   
+  // UserId's friends
+  // Client can read any friend document here 
+   // Client has no reason to add documents here because that's done on server 
+   // Deny creating documents here for client 
+   // Allow client to delete here though because client can remove friends
+   match /myFriends/{friendID}{
+   
+    allow read: if signedIn() && ownsData()
+    allow create: if false // Client cannot add friends here, only in backend 
+    allow delete: if signedIn() && ownsData() // client can only delete if signed in and this is THEIR data 
+   
+  
+  
+  
+   }
+   
+//    // This is userId's friend requests
+//    // Here, user2 probably sent a request to userId.
+//    match /requests/{user2}{
+   
+//    // I wanna be able to read if I'm either of the users either doing the requesting OR accepting the request 
+//    function amEitherUser(){
+//    return request.auth.id == user2 || request.auth.id == userId
+//    }
+   
+//    allow read: if signedIn() && amEitherUser() //&& (ownsData() || amUser2())
+//    }
+   
+   
+   
+    
+  
+   }
+   
+   // allowing users to respond to a friend request if they are either user1 or user2
+   match /friends/{user1}/requests/{user2} {
+   
+   // When called as sending a friend request....
+   //user1: [Them] The user being sent the friend request 
+   //user2: [Me] The person sending the friend request 
+   
+   
+   // the signed in user (one making the request) IS user 1 for this endpoint
+   function amUser1() {
+    return request.auth.uid == user1
+    }
+
+
+    function amUser2() {
+    return request.auth.uid == user2
+    }
+   
+   function amEitherUser(){
+    return request.auth.uid == user1 || request.auth.uid == user2
+    }
+    
+    
+   function signedIn() {
+      return request.auth.uid != null;
+    }
+    
+   allow read: if signedIn() && amEitherUser()
+   
+   
+   
+
+   
+ //======================================================================================  ====================  ====================  
+   // ALLOWING FRIEND REQUESTS TO BE SENT 
+   // 1. To do this, the user must obviously be signed in , where {User2} is the signed in user
+   // 2. Sending friend requests is a 'create' since it uses the setData() function on the client
+   // 3. Request Data contains information on user making the request 
+   // 4. Target Data contains information we are trying to create
+   // 				- See Validating Data below 
+   // 				
+   // Helpful Notes: 
+   // // request.auth.uid || ID of user making the request 
+   // // request.resource.data (Object we are writing )
+   
+   
+   //Helper Functions 
+   
+   
+   // Validating Data
+   function validateData(){
+   
+   
+   // For a user to create a friend requests the following rules must be obeyed
+   // in the document that they are trying to create 'request.resource.data'
+   // 1. Certain fields must exists and 2. Some must match certain values 
+   
+   
+   			// The following fields MUST exist 
+   			// 'request_by', 'time', 'accepted', 'profile_image_url', 'is_notable'
+   return request.resource.data.keys().hasAny(["request_by"])
+   				&& request.resource.data.keys().hasAny(["time"])
+          && request.resource.data.keys().hasAny(["accepted"])
+          && request.resource.data.keys().hasAny(["profile_image_url"])
+          && request.resource.data.keys().hasAny(["isNotable"])
+          && request.resource.data.request_by == request.auth.uid // requester must be signed in user 
+          && request.resource.data.time is timestamp //obvious 
+          && request.resource.data.accepted == false  // see database to understand 
+          && request.resource.data.profile_image_url is string // 
+          && request.resource.data.isNotable is bool 
+  
+   }
+   
+   allow create: if signedIn() && amUser2() && !amUser1()  && validateData()
+   
+   
+//======================================================================================
+   
+   
+   
+// ALLOWING CANCELLATION AND REJECTION OF FRIEND REQUEST .===========================================================
+
+
+//TODO: This only checks if the signed in user is the 1st or 2nd user 
+// We can also check if a friendship even exists 
+  
+  allow delete: if amUser1() || amUser2()
+   
+// ===========================================================
+
+   
+   
+   
+// ALLOWING FRIEND REQUEST ACCEPTANCE.===========================================================
+
+   // Allowing friend request acceptance  
+   //  If signed in user is user1 and if certain fields are there
+   allow update: if amUser1() 
+   							&& request.resource.data.keys().hasAny(["accepted"])
+                && request.resource.data.accepted == true 
+   
+   }
+   
+// =============================================================================================
+   
+  
+  
+  
+  
+  
+// Allowing winks ====================================================================================
+
+  
+  
+    // Allow all reads and writes to finding winks 
+  match /winks/{winked}/people_who_winked/{winker}{
+ 
+ 
+ function signedIn() {
+      return request.auth.uid != null;
+    }
+    
+ function amWinker() {
+    return request.auth.uid == winker
+    }
+    
+  function amWinked() {
+    return request.auth.uid == winked
+    }
+
+	allow read: if signedIn() && (amWinker() || amWinked() )
+  // allowing winking at a user
+   allow create: if amWinker() //&& 
+  // 							request.resource.data.keys().hasAny(["didWink"])
+  //               && request.resource.data.didWink == true 
+  //               && request.resource.data.keys().hasAny(["time"])
+  //               && request.resource.data.time is timestamp 
+  //               && request.resource.data.keys().hasAny(["profile_image_url"])
+  //               && request.resource.data.profile_image.url is string 
+  //               && request.resource.data.keys().hasAny(["isNotable"])
+  //               && request.resource.data.isNotable is bool 
+                
+  // allowing unwinking 
+  allow delete: if signedIn() && amWinker()
+  							
+  
+  }
+  
+  
+  
+  //====================================================================================
+  
+  
+  // Allow reads on all test/experimental/generated data 
+  match /generated_users/{userId}/{documents=**}{
+  // Allows users to read others' public data 
+
+  allow read, write: if true 
+  
+  }
+  
+  // Allow all reads and writes to finding usernames 
+  match /usernames/{username}{
+  // Allows users to read others' public data 
+  
+
+
+  allow read, write: if true 
+  
+  }
+  
+ 
+  
+  
+  
+  
+  match /all_placements/{planet}/{sign}/{documents=**}{
+  
+  allow read, write: if true 
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+    
+    
+    
+  }
+}
