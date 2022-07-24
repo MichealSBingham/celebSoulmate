@@ -17,6 +17,10 @@ import TextField from '@mui/material/TextField';
 import moment from 'moment';
 import { geocodeByPlaceId, getLatLng } from 'react-google-places-autocomplete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CircleProgressBar from './CircleProgressBar';
+//import CircleProgressBar from './CircleProgressBarBase';
+
+
 
 
 
@@ -61,8 +65,6 @@ const theme = createTheme({
    
   },
 });
-
-
 
 
 
@@ -412,6 +414,14 @@ class InitialPage extends React.Component{
         const orientation = this.state.orientation; 
         console.log("the orienation : " + orientation )
 
+        
+        this.setState({loadingPerson: false}, 
+          
+          () => {
+            console.log("The state of the loadingPerson is " + this.state.loadingPerson);
+          })
+          
+
       
 
 
@@ -434,7 +444,8 @@ class InitialPage extends React.Component{
 
           
           return (
-            <h1> Done Loading .. </h1>
+            
+            <CelebrityProfile name="Andrea Bellew" image={profileImage} bio={bioSample} oneLiner={oneLiner}/>
           )
         }
         
@@ -1230,6 +1241,20 @@ function LocationSelector()  {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   class CelebrityProfile extends React.Component{
     render(){
       
@@ -1240,7 +1265,12 @@ function LocationSelector()  {
           <img className="CelebrityProfile-image" src={this.props.image} />
           <h1>{this.props.name}</h1>
           <h2>{this.props.bio}</h2>
+          <h3> {this.props.oneLiner} </h3>
+          
 
+          <CircleProgressBar percentage={80}/>
+          <CircleProgressBar percentage={22}/>
+          <CircleProgressBar percentage={43}/>
           </div>
 
       );
@@ -1248,5 +1278,5 @@ function LocationSelector()  {
   }
   
   const root = ReactDOM.createRoot(document.getElementById("root"));
-  //root.render(<App />);
-root.render(<CelebrityProfile name="Andrea Bellew" image={profileImage} bio={bioSample} oneLiner={oneLiner}/>  );
+  root.render(<App />);
+//root.render(<CelebrityProfile name="Andrea Bellew" image={profileImage} bio={bioSample} oneLiner={oneLiner}/>  );
