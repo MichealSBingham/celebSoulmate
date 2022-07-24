@@ -421,6 +421,30 @@ margin-bottom: 10px;
   margin-left: auto;
   margin-right: auto;
 }
+
+
+
+.CelebrityProfile-image{
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+ 
+ 
+}
+
+.CelebrityProfile{
+ 
+  background: linear-gradient(245deg,#484147,#624d55);
+  background-size: 180% 180%;
+  border: none;
+  width: 50%;
+  height: 50%;
+  border-radius: 5px;
+  
+}
 html, body 
 { 
  

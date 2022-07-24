@@ -20,6 +20,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 
+// Mock data for Celebrity
+const profileImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2864&q=80";
+const bioSample = "Italian-French royalty, the daughter of Lorenzo, Duke of Urbino and Madeleine ...";
+const oneLiner = "You and Andrea would have MINDBLOWING SEX";
+
 
 // Images 
 
@@ -1158,7 +1163,7 @@ function LocationSelector()  {
 
     render(){
 
-     // const isRegistering = this.state.isRegisering;
+
 
       return(
 
@@ -1186,6 +1191,10 @@ function LocationSelector()  {
         </div>
       );
     }
+    
+
+
+
   }
   
   class Stars extends React.Component {
@@ -1218,7 +1227,26 @@ function LocationSelector()  {
     }
   }
   // ========================================
+
+
+
+  class CelebrityProfile extends React.Component{
+    render(){
+      
+
+      return (
+
+        <div className="CelebrityProfile">
+          <img className="CelebrityProfile-image" src={this.props.image} />
+          <h1>{this.props.name}</h1>
+          <h2>{this.props.bio}</h2>
+
+          </div>
+
+      );
+    }
+  }
   
   const root = ReactDOM.createRoot(document.getElementById("root"));
-  root.render(<App />);
-  
+  //root.render(<App />);
+root.render(<CelebrityProfile name="Andrea Bellew" image={profileImage} bio={bioSample} oneLiner={oneLiner}/>  );
