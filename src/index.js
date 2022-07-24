@@ -18,13 +18,17 @@ import moment from 'moment';
 import { geocodeByPlaceId, getLatLng } from 'react-google-places-autocomplete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CircleProgressBar from './CircleProgressBar';
+
 //import CircleProgressBar from './CircleProgressBarBase';
 
 
 
 
 
+
 // Mock data for Celebrity
+const profileImage2 = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg/440px-TechCrunch_Disrupt_2019_%2848834434641%29_%28cropped%29.jpg"
+const profileImage3 = "https://upload.wikimedia.org/wikipedia/commons/2/25/Leonardo_DiCaprio_2014.jpg"; 
 const profileImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2864&q=80";
 const bioSample = "Italian-French royalty, the daughter of Lorenzo, Duke of Urbino and Madeleine ...";
 const oneLiner = "You and Andrea would have MINDBLOWING SEX";
@@ -445,7 +449,7 @@ class InitialPage extends React.Component{
           
           return (
             
-            <CelebrityProfile name="Andrea Bellew" image={profileImage} bio={bioSample} oneLiner={oneLiner}/>
+            <CelebrityProfile name="Andrea Bellew" image={profileImage2} bio={bioSample} oneLiner={oneLiner}/>
           )
         }
         
@@ -1167,6 +1171,99 @@ function LocationSelector()  {
 
 
 
+ 
+  class Stars extends React.Component {
+    render () {
+      return (
+        <StarfieldAnimation className="stars" depth={500} numParticles={800} 
+        style={{
+          position: 'absolute',
+          
+        
+        }}
+        />
+      )
+    }
+  }
+
+
+  class BottomStars extends React.Component {
+    render () {
+      return (
+        
+        <StarfieldAnimation className="stars2"
+        numParticles={800} depth={500}
+        style={{
+          position: 'absolute',
+          
+        }}
+      />
+      )
+    }
+  }
+  // ========================================
+
+
+
+
+
+
+
+
+
+  class CelebrityProfile extends React.Component{
+    render(){
+      
+
+      return (
+
+        <div className="CelebrityProfile">
+
+          <div className="CelebrityProfile-image-container">
+          <img className="CelebrityProfile-image" src={this.props.image} />
+            </div>
+          
+          <h1  className="celebName">{this.props.name}</h1>
+          <h2  className="celebBio">{this.props.bio}</h2>
+          <h3  className="oneLiner"> {this.props.oneLiner} </h3>
+          
+
+          
+          <div className="progressBarContainer"> 
+
+          <div className='progressBarChild1' > 
+          <CircleProgressBar percentage={this.props.chemistry}  innerText="Chemistry" maxSize={"300px"} />
+          </div>
+
+          <div className='progressBarChild1' > 
+          <CircleProgressBar percentage={this.props.love} innerText="Love" maxSize={"300px"} />
+          </div>
+
+          <div className='progressBarChild1' > 
+          <CircleProgressBar percentage={this.props.sex} innerText="Sex" maxSize={"300px"} />
+          </div>
+    
+            </div>
+
+          
+          </div>
+
+      );
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   class App extends React.Component{
 
     
@@ -1208,75 +1305,32 @@ function LocationSelector()  {
 
   }
   
-  class Stars extends React.Component {
-    render () {
-      return (
-        <StarfieldAnimation className="stars" depth={500} numParticles={800} 
-        style={{
-          position: 'absolute',
-          
-        
-        }}
-        />
-      )
-    }
-  }
 
+  class App2 extends React.Component{
 
-  class BottomStars extends React.Component {
-    render () {
-      return (
-        
-        <StarfieldAnimation className="stars2"
-        numParticles={800} depth={500}
-        style={{
-          position: 'absolute',
-          
-        }}
-      />
-      )
-    }
-  }
-  // ========================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  class CelebrityProfile extends React.Component{
     render(){
-      
+        
+        return(
+  
+          <div className="app" class="gradient-background" >
+           
+           <Stars />
+           <CelebrityProfile name="Andrea Bellew" image={profileImage2} bio={bioSample} oneLiner={oneLiner}
+                             chemistry={88} love={95} sex={76}/>
+          <BottomStars />
 
-      return (
-
-        <div className="CelebrityProfile">
-          <img className="CelebrityProfile-image" src={this.props.image} />
-          <h1>{this.props.name}</h1>
-          <h2>{this.props.bio}</h2>
-          <h3> {this.props.oneLiner} </h3>
-          
-
-          <CircleProgressBar percentage={80}/>
-          <CircleProgressBar percentage={22}/>
-          <CircleProgressBar percentage={43}/>
           </div>
-
-      );
+        );
     }
   }
+
+
+
+
+
+
   
   const root = ReactDOM.createRoot(document.getElementById("root"));
-  root.render(<App />);
+  //root.render(<App />);
+  root.render(<App2 />);
 //root.render(<CelebrityProfile name="Andrea Bellew" image={profileImage} bio={bioSample} oneLiner={oneLiner}/>  );

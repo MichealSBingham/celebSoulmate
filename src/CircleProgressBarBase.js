@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { string, number, bool } from 'prop-types';
+import { color } from '@mui/system';
 
 const INITIAL_OFFSET = 25;
 const circleConfig = {
@@ -63,13 +64,17 @@ const CircleProgressBarBase = ({
           strokeDashoffset={INITIAL_OFFSET}
         />
 
-        <g className="chart-text">
-          <text x="50%" y="50%" className="chart-number">
-            {progressBar}%
-          </text>
-          <text x="50%" y="50%" className="chart-label">
+        <g fill='white' className="chart-text">
+
+        <text fill='white'  x="50%" y="50%" className="chart-label" style={{fontFamily: 'Avenir'}}>
             {innerText}
           </text>
+
+        <text fill='white' x="50%" y="50%" className="chart-number" style={{ontFamily: 'Montserrat Alternates', fontWeight : 800, color: '#fff !important'}}>
+            {progressBar}
+          </text>
+         
+
         </g>
       </svg>
       {legendText && (
@@ -109,8 +114,8 @@ CircleProgressBarBase.defaultProps = {
   innerText: 'Completed',
   legendText: '',
   percentage: 50,
-  trailStrokeWidth: 1,
-  trailStrokeColor: '#d2d3d4',
+  trailStrokeWidth: 2,
+  trailStrokeColor: '#48414723',
   trailSpaced: false,
   speed: 1
 };

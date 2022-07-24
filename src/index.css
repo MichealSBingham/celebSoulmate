@@ -423,14 +423,18 @@ margin-bottom: 10px;
 }
 
 
-
-.CelebrityProfile-image{
-  width: 25%;
-  height: 25%;
-  border-radius: 50%;
-  border: none;
+.CelebrityProfile-image-container{
+  position: relative; width: 200px; height: 200px; overflow: hidden; border-radius: 50%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.CelebrityProfile-image{
+  
+  
+  width: 100%;
+  height: auto;
+ 
  
  
 }
@@ -438,19 +442,90 @@ margin-bottom: 10px;
 .CelebrityProfile{
  
   background: linear-gradient(245deg,#48414723,#4d4b4b27);
-  background-size: 180% 180%;
+  background-size: 100% 100%;
   border: none;
   width: 50%;
-  height: 50%;
-  border-radius: 5px;
+  height:auto;
+  border-radius: 52px;
+  margin-left: auto;
+  margin-right: auto;
+  
   
 }
+
+
+.celebName{
+  text-align: center;
+    font-size: 48px;
+    color: #fff;
+    margin-top: 5%;
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-weight: 800;
+
+}
+
+.celebBio{
+
+  text-align: center;
+    font-size: 21px;
+    color: #fff;
+    margin-top: 5%;
+    font-family: 'Avenir', sans-serif;
+    font-weight: 50;
+    
+
+}
+
+
+.oneLiner{
+
+  text-align: center;
+  font-size: 15px;
+  color: #fff;
+  margin-top: 5%;
+  font-family: 'Avenir', sans-serif;
+  font-weight: 50;
+}
+
+
+.progressBarContainer{
+
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5%;
+  
+}
+
+.progressBarChild1{
+  display: inline-block;
+  
+  width: 200px;
+  height: 200px;
+ 
+  
+}
+
+
+CircleProgressBar{
+  
+}
+
+
+
+.chart-number{
+  color: #fff !important;
+}
+
+
 html, body 
 { 
  
  overflow: hidden;
 
-
+ 
 
 
 }
