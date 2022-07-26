@@ -430,9 +430,9 @@ class InitialPage extends React.Component{
 
 
         let celebName = json.name
-        let celebBio = bioSample
+        let celebBio = json.bio
         let celebImage = json.profile_image_url
-        let celebOneLiner = oneLiner
+        let celebOneLiner = json.oneLiner
         let sex = json.sex
         let love = json.love
         let chemistry = json.chemistry
@@ -444,7 +444,7 @@ class InitialPage extends React.Component{
           celebOneLiner: celebOneLiner,
           sex: sex, 
           chemistry: chemistry, 
-          love: sex
+          love: love
         })
 
 
