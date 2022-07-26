@@ -25,7 +25,7 @@ import { getAnalytics } from "firebase/analytics";
 
 
 
-
+const celebSoulmateURL = 'https://us-central1-findamare.cloudfunctions.net/celebritySoulmate'
 
 
 // Mock data for Celebrity
@@ -422,28 +422,20 @@ class InitialPage extends React.Component{
       }
 
 
-      findMatch = () => {
-        console.log("looking for match ..")
-        //console.log("Finding match ..." + this.state); 
+      //Handles response from API after looking for celebrity soulmate 
+      handleResponse = (json) => {
 
-        const name = this.state.name;
-        console.log("The name is " + name);
-        const birthLocation = this.state.location;
-        console.log("The birth location is " + birthLocation.latitude);
-        const birthday = this.state.birthday;
-        console.log("The birthday is " + birthday);
-        const gender = this.state.gender; 
-        console.log("The gender: " + gender )
-        const orientation = this.state.orientation; 
-        console.log("the orienation : " + orientation )
+        console.log("handling response.")
+        console.log(json)
 
-        let celebName = "Will Smith"
+
+        let celebName = json.name
         let celebBio = bioSample
-        let celebImage = profileImage2
+        let celebImage = json.profile_image_url
         let celebOneLiner = oneLiner
-        let sex = Math.floor(Math.random() * 100)
-        let love = Math.floor(Math.random() * 100)
-        let chemistry = Math.floor(Math.random() * 100)
+        let sex = json.sex
+        let love = json.love
+        let chemistry = json.chemistry
         
         this.setState({
           celebName: celebName, 
@@ -463,6 +455,55 @@ class InitialPage extends React.Component{
             console.log("The state of the loadingPerson is " + this.state.loadingPerson);
           })
           
+
+      }
+
+      findMatch = () => {
+        console.log("looking for match ..")
+        //console.log("Finding match ..." + this.state); 
+
+        const name = this.state.name;
+        const birthLocation = this.state.location;
+        const birthday = this.state.birthday;
+        const gender = this.state.gender; 
+        
+        const orientation = this.state.orientation; 
+        
+        const postData = {
+
+          name: name, 
+          gender: gender, 
+          orientation: orientation, 
+          birthday: birthday.toString(), 
+          longitude: birthLocation.longitude.toString(), 
+          latitude: birthLocation.latitude.toString(), 
+          knownTime: true 
+
+
+
+        }
+
+
+
+
+        fetch(celebSoulmateURL, 
+          {
+            method: "POST", 
+            
+            body: JSON.stringify(postData), 
+            headers:  {
+              "Content-Type": "application/json", 
+             
+            }
+          })
+      .then(response => response.json())
+      .then(json => this.handleResponse(json) )
+      .catch(error => console.log(error));
+
+
+      
+
+       
 
       
 
@@ -730,6 +771,7 @@ class RegistrationSection extends React.Component{
       fetch(url)
       .then(response => response.json())
       .then(json => this.process(stamp, json) )
+      .catch(error => this.errorHappened(error));
      
 
     
