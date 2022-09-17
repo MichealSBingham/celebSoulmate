@@ -1303,7 +1303,7 @@ function LocationSelector()  {
           <img className="CelebrityProfile-image" src={this.props.image} />
             </div>
           
-          <h1  className="celebName">{this.props.name}</h1>
+          <h1  className="celebName" >{this.props.name}</h1>
           <h2  className="celebBio">{this.props.bio}</h2>
           <h3  className="oneLiner"> {this.props.oneLiner} </h3>
           
@@ -1395,7 +1395,7 @@ function LocationSelector()  {
           <div className="app" class="gradient-background" >
            
            <Stars />
-           <CelebrityProfile name="Andrea Bellew" image={profileImage2} bio={bioSample} oneLiner={oneLiner}
+           <CelebrityProfile name="Andrea Bellew" image={profileImage3} bio={bioSample} oneLiner={oneLiner}
                              chemistry={88} love={95} sex={76}/>
           <BottomStars />
 

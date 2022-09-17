@@ -424,7 +424,10 @@ margin-bottom: 10px;
 
 
 .CelebrityProfile-image-container{
-  position: relative; width: 200px; height: 200px; overflow: hidden; border-radius: 50%;
+  position: relative; 
+  width: 25%; height: auto; 
+  overflow: hidden; 
+  border-radius: 25%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -434,6 +437,7 @@ margin-bottom: 10px;
   
   width: 100%;
   height: auto;
+  margin-top: 1%;
  
  
  
@@ -451,23 +455,25 @@ margin-bottom: 10px;
   margin-right: auto;
   
   
+  
 }
 
 
 .celebName{
   text-align: center;
-    font-size: 48px;
+    font-size: 3vw;
     color: #fff;
     margin-top: 5%;
     font-family: 'Montserrat Alternates', sans-serif;
     font-weight: 800;
+
 
 }
 
 .celebBio{
 
   text-align: center;
-    font-size: 21px;
+    font-size: 1.5vw;
     color: #fff;
     margin-top: 5%;
     font-family: 'Avenir', sans-serif;
@@ -480,7 +486,7 @@ margin-bottom: 10px;
 .oneLiner{
 
   text-align: center;
-  font-size: 15px;
+  font-size: 1.5vw;
   color: #fff;
   margin-top: 5%;
   font-family: 'Avenir', sans-serif;
