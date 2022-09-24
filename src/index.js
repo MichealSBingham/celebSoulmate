@@ -881,11 +881,11 @@ class RegistrationSection extends React.Component{
            <div>
   
            <div className='btn-Group2' role='group'> 
-           <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={() => this.setSex("Male")}>Man 👨🏾</button>
-           <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>Woman 💁🏼‍♀️</button>
+           <button className={!(isMobile) ? "Button" : "MaleButton-mobile"} onClick={() => this.setSex("Male")}>Man 👨🏾</button>
+           <button className={!(isMobile) ? "Button": "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>Woman 💁🏼‍♀️</button>
                        </div>
        
-         <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>It's not that simple 🤷⁉️🤷🏻‍♀️</button>
+         <button className={!(isMobile) ? "Button": "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>It's not that simple 🤷⁉️🤷🏻‍♀️</button>
        
                  </div>
 
@@ -897,11 +897,11 @@ class RegistrationSection extends React.Component{
            <div>
   
     <div className='btn-Group2' role='group'> 
-    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={() => this.setSex("Male")}>👨🏾</button>
-    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>💁🏼‍♀️</button>
+    <button className={!(isMobile) ? "Button" : "MaleButton-mobile"} onClick={() => this.setSex("Male")}>👨🏾</button>
+    <button className={!(isMobile) ? "Button": "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>💁🏼‍♀️</button>
                 </div>
 
-  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>🤷⁉️🤷🏻‍♀️</button>
+  <button className={!(isMobile) ? "Button": "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>🤷⁉️🤷🏻‍♀️</button>
 
           </div>
         );
@@ -918,11 +918,11 @@ class RegistrationSection extends React.Component{
            <div>
   
            <div className='btn-Group2' role='group'> 
-           <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={() => this.setOrientation("Men")}>Men only 👨🏾</button>
-           <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={() => this.setOrientation("Women")}>Women only 💁🏼‍♀️</button>
+           <button className={!(isMobile) ? "Button" : "MaleButton-mobile"} onClick={() => this.setOrientation("Men")}>Men only 👨🏾</button>
+           <button className={!(isMobile) ? "Button": "FemaleButton-mobile"} onClick={() => this.setOrientation("Women")}>Women only 💁🏼‍♀️</button>
                        </div>
        
-         <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={() => this.setOrientation("All")}>Everyone 💁🏼‍♀️👨🏾</button>
+         <button className={!(isMobile) ? "Button": "MoreGendersButton-mobile"} onClick={() => this.setOrientation("All")}>Everyone 💁🏼‍♀️👨🏾</button>
        
                  </div>
 
@@ -934,11 +934,11 @@ class RegistrationSection extends React.Component{
            <div>
   
     <div className='btn-Group2' role='group'> 
-    <button className={!(isMobile) ? "MaleButton" : "MaleButton-mobile"} onClick={() => this.setOrientation("Men")}>👨🏾</button>
-    <button className={!(isMobile) ? "FemaleButton": "FemaleButton-mobile"} onClick={() => this.setOrientation("Women")}>💁🏼‍♀️</button>
+    <button className={!(isMobile) ? "Button" : "MaleButton-mobile"} onClick={() => this.setOrientation("Men")}>👨🏾</button>
+    <button className={!(isMobile) ? "Button": "FemaleButton-mobile"} onClick={() => this.setOrientation("Women")}>💁🏼‍♀️</button>
                 </div>
 
-  <button className={!(isMobile) ? "MoreGendersButton": "MoreGendersButton-mobile"} onClick={() => this.setOrientation("All")}>💁🏼‍♀️👨🏾</button>
+  <button className={!(isMobile) ? "Button": "MoreGendersButton-mobile"} onClick={() => this.setOrientation("All")}>💁🏼‍♀️👨🏾</button>
 
           </div>
         );
