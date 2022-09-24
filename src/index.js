@@ -286,7 +286,7 @@ class InitialPage extends React.Component{
        
   
       componentDidMount(){
-        window.scrollTo(0, 0)
+        ////window.scrollTo(0, 0)
       }
 
 
@@ -345,7 +345,7 @@ class InitialPage extends React.Component{
 
         }); // This is a callback function that is called after the state is set
 
-        window.scrollTo(0, 0);
+        //window.scrollTo(0, 0);
       }
 
 
@@ -363,7 +363,7 @@ class InitialPage extends React.Component{
           page: pageToGoTo
         });
 
-        window.scrollTo(0, 0)
+        //window.scrollTo(0, 0)
       }
 
       nextPage = () => {
@@ -396,7 +396,7 @@ class InitialPage extends React.Component{
           page: pageToGoTo
         });
 
-        window.scrollTo(0, 0)
+        ////window.scrollTo(0, 0)
       }
 
 
@@ -571,7 +571,7 @@ class InitialPage extends React.Component{
     }
 
     scrollToTop(){
-      window.scrollTo(0, 0);
+      ////window.scrollTo(0, 0);
       //alert('Scrolled to top');
       
     }
