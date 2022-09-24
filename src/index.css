@@ -5,10 +5,10 @@
 
 .gradient-background {
     background: linear-gradient(245deg,#F029C4,#FF0265);
-    background-size: 180% 180%;
+    background-size: cover;
     animation: gradient-animation 3s ease infinite;
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     margin: 0px;
     padding: 0px;
   
@@ -30,7 +30,7 @@
    
     width: 100%;
     height: 50%;
-    
+   
     
   }
 
@@ -173,7 +173,7 @@
  
 }
 
-.MaleButton {
+.MaleButton_old {
   background-color: rgb(255, 255, 255, 0.15);
   border: none;
   width: 715px;
@@ -191,6 +191,44 @@
  
 }
 
+.genderButton{
+  border-radius: 50%;
+  width: 6vw;
+  height: 6vw;
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  font-size: 3vw;
+  margin-right: 1%;
+  margin-left: 1%;
+  text-align: center;
+  margin-top: -20%;
+}
+
+.gender2Button{
+  border-radius: 50%;
+  width: 6vw;
+  height: 6vw;
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  font-size: 1.5vw;
+  text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+
+  display: block;
+}
+
+.MaleButton{
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  font-size: 70px;
+  margin-right: 20px;
+  text-align: center;
+}
+
 .MaleButton-mobile{
   border-radius: 50%;
   width: 100px;
@@ -199,6 +237,17 @@
   border: none;
   font-size: 70px;
   margin-right: 20px;
+  text-align: center;
+}
+
+.FemaleButton{
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  font-size: 70px;
+  margin-left: 20px;
   text-align: center;
 }
 
@@ -213,7 +262,7 @@
   text-align: center;
 }
 
-.FemaleButton {
+.FemaleButton_old {
   background-color: rgb(255, 255, 255, 0.15);
   border: none;
   width: 715px;
@@ -231,7 +280,7 @@
  
 }
 
-.MoreGendersButton {
+.MoreGendersButton_old {
   background-color: rgb(255, 255, 255, 0.15);
   border: none;
   width: 715px;
@@ -246,6 +295,24 @@
   display: block;
   margin-top: 50px;
   font-weight: 800;
+  
+ 
+}
+
+.MoreGendersButton {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: rgb(255, 255, 255, 0.15);
+  border: none;
+  font-size: 30px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  display: block;
+  color: white;
+  font-weight: 800;
+  
   
  
 }
@@ -342,6 +409,7 @@
   background-repeat: no-repeat;
   background-color: transparent;
   transform: rotate(180deg);
+
   text-align: center;
   margin-left: 15px;
   border: none;
@@ -356,6 +424,7 @@
   background-image: url('./images/BackArrow.svg');
   width: 90px; 
   height: 20px;
+  
   background-repeat: no-repeat;
   background-color: transparent;
   text-align: center;
@@ -369,16 +438,16 @@
   text-align: center;
   margin-left: auto;
 margin-right: auto;
-margin-top: 50px;
-margin-bottom: 10px;
+margin-top: 5%;
+margin-bottom: 0;
 }
 
 .btn-Group2 {
   text-align: center;
   margin-left: auto;
 margin-right: auto;
-margin-top: 50px;
-margin-bottom: 10px;
+margin-top: 5%;
+margin-bottom: 0;
 }
 .nameForm{
   text-align: center;
@@ -549,18 +618,30 @@ CircleProgressBar{
 html, body 
 { 
  
- overflow: hidden;
 
- 
+
+  margin:0;
+  
 
 
 }
 
 
+.container-fluid{
+  margin-top: 0;
+  margin-bottom: 0;
+}
 
 
+html {
+  overflow: hidden;
+  height: 100%;
+}
 
-
+body {
+  height: 100%;
+  overflow: auto;
+}
 
 /*
 

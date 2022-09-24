@@ -874,34 +874,36 @@ class RegistrationSection extends React.Component{
 
       else if (page == 'Gender'){
 
-        if (!isMobile){
+        if (true){
           return(
 
 
            <div>
   
-           <div className='btn-Group2' role='group'> 
-           <button className={!(isMobile) ? "Button" : "MaleButton-mobile"} onClick={() => this.setSex("Male")}>Man 👨🏾</button>
-           <button className={!(isMobile) ? "Button": "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>Woman 💁🏼‍♀️</button>
+           <div className='btn-Group2' role='group' > 
+           <button className={!(isMobile) ? "genderButton" : "MaleButton-mobile"} onClick={() => this.setSex("Male")}>👨🏾</button>
+           <button className={!(isMobile) ? "genderButton": "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>💁🏼‍♀️</button>
                        </div>
        
-         <button className={!(isMobile) ? "Button": "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>It's not that simple 🤷⁉️🤷🏻‍♀️</button>
+         <button className={!(isMobile) ? "gender2Button": "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>🤷⁉🤷🏻‍♀️</button>
        
                  </div>
 
           );
         }
 
+      
+
         return(
 
            <div>
   
     <div className='btn-Group2' role='group'> 
-    <button className={!(isMobile) ? "Button" : "MaleButton-mobile"} onClick={() => this.setSex("Male")}>👨🏾</button>
-    <button className={!(isMobile) ? "Button": "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>💁🏼‍♀️</button>
+    <button className={ "MaleButton-mobile"} onClick={() => this.setSex("Male")}>👨🏾</button>
+    <button className={ "FemaleButton-mobile"} onClick={() => this.setSex("Female")}>💁🏼‍♀️</button>
                 </div>
 
-  <button className={!(isMobile) ? "Button": "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>🤷⁉️🤷🏻‍♀️</button>
+  <button className={ "MoreGendersButton-mobile"} onClick={() => this.setSex("Other")}>🤷⁉️🤷🏻‍♀️</button>
 
           </div>
         );
@@ -1369,7 +1371,7 @@ function LocationSelector()  {
           <Stars />
               <InitialPage />
              
-                    <BottomStars />
+                
           
         
   
