@@ -1370,7 +1370,7 @@ function LocationSelector()  {
 
           <Stars />
               <InitialPage />
-             
+             <BottomStars />
                 
           
         
